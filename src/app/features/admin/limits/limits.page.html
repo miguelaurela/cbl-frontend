@@ -8,7 +8,7 @@
         <p class="banner" role="alert">{{ message }}</p>
       }
       <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" floatLabel="always">
           <mat-label>{{ labels.limits.min }}</mat-label>
           <span matTextPrefix>$&nbsp;</span>
           <input matInput type="number" inputmode="decimal" step="0.01" formControlName="minAmount" />
@@ -17,7 +17,7 @@
           }
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" floatLabel="always">
           <mat-label>{{ labels.limits.max }}</mat-label>
           <span matTextPrefix>$&nbsp;</span>
           <input matInput type="number" inputmode="decimal" step="0.01" formControlName="maxAmount" />

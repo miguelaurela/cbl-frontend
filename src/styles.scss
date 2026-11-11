@@ -44,8 +44,11 @@ table {
   max-width: 100%;
 }
 
-:focus-visible {
-  outline: 2px solid var(--mat-sys-primary);
+/* Foco de teclado siempre visible (los botones de Material solo muestran una capa tenue del 12 %). */
+:focus-visible,
+.mat-mdc-button-base:focus-visible,
+.mdc-button:focus-visible {
+  outline: 3px solid var(--mat-sys-primary) !important;
   outline-offset: 2px;
 }
 

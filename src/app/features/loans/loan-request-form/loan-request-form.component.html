@@ -10,7 +10,7 @@
         <p class="banner" role="alert">{{ message }}</p>
       }
       <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" floatLabel="always">
           <mat-label>{{ labels.loanForm.amount }}</mat-label>
           <span matTextPrefix>$&nbsp;</span>
           <input matInput type="number" inputmode="decimal" step="0.01" formControlName="amount" />

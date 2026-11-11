@@ -38,7 +38,7 @@ cualquier servidor web.
 
 **Metas de rendimiento**: acceso y solicitud de un préstamo en menos de 1 minuto (SC-001); nueva decisión visible en la lista
 en menos de 2 s (SC-003); arranque rápido (presupuesto de tamaño
-inicial del build de producción, aviso a 500 kB y error a 1 MB).
+inicial del build de producción, aviso a 650 kB y error a 1 MB; el inicial real ronda 590 kB sin comprimir y 150 kB transferidos).
 
 **Restricciones**: token solo en memoria y sin refresh token; sin despliegue en ningún entorno (el CD solo publica artefactos);
 el mock no entra en el build de producción; documentación bilingüe.

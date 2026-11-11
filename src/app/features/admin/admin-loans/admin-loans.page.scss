@@ -88,7 +88,8 @@ dd {
   overflow-wrap: anywhere;
 }
 
-@media (min-width: 768px) {
+/* Con 7 columnas la tabla necesita más ancho: por debajo de 1024 px se muestran tarjetas. */
+@media (min-width: 1024px) {
   .table {
     display: table;
   }
