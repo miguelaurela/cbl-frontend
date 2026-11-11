@@ -9,3 +9,6 @@ coverage/
 !.vscode/extensions.json
 
 # Spec Kit: NO se ignoran .specify/ ni specs/ (son evidencia del proceso)
+
+# Local Claude settings
+.claude/settings.local.json
