@@ -1,0 +1,44 @@
+mat-card {
+  padding: var(--cbl-space-3, 16px);
+  box-sizing: border-box;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--cbl-space-2, 8px);
+  margin-top: var(--cbl-space-3, 16px);
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.submit {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cbl-space-2, 8px);
+  min-height: 44px;
+}
+
+.banner {
+  margin: var(--cbl-space-2, 8px) 0;
+  padding: var(--cbl-space-2, 8px) var(--cbl-space-3, 16px);
+  border-radius: 8px;
+  background: var(--mat-sys-error-container);
+  color: var(--mat-sys-on-error-container);
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 768px) {
+  form {
+    grid-template-columns: 1fr 1fr auto;
+    align-items: start;
+  }
+}

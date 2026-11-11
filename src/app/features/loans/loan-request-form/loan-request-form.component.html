@@ -1,0 +1,43 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>{{ labels.loanForm.title }}</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <app-state-view [loading]="limitsLoading()" [error]="limitsFailed()" (retry)="retryLimits()">
+      @if (banner(); as message) {
+        <p class="banner" role="alert">{{ message }}</p>
+      }
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ labels.loanForm.amount }}</mat-label>
+          <span matTextPrefix>$&nbsp;</span>
+          <input matInput type="number" inputmode="decimal" step="0.01" formControlName="amount" />
+          <mat-hint>{{ amountHint() }}</mat-hint>
+          @if (form.controls.amount.invalid && form.controls.amount.touched) {
+            <mat-error>{{ amountError() }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ labels.loanForm.term }}</mat-label>
+          <input matInput type="number" inputmode="numeric" step="1" formControlName="termMonths" />
+          <mat-hint>{{ termHint }}</mat-hint>
+          @if (form.controls.termMonths.invalid && form.controls.termMonths.touched) {
+            <mat-error>{{ termError() }}</mat-error>
+          }
+        </mat-form-field>
+
+        <button mat-flat-button type="submit" class="submit" [disabled]="submitting()">
+          @if (submitting()) {
+            <mat-spinner diameter="18" aria-hidden="true" />
+            <span>{{ labels.loanForm.submitting }}</span>
+          } @else {
+            <span>{{ labels.loanForm.submit }}</span>
+          }
+        </button>
+      </form>
+    </app-state-view>
+  </mat-card-content>
+</mat-card>

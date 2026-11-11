@@ -1,11 +1,15 @@
 import { inject } from '@angular/core';
 import type { Routes } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { provideState, Store } from '@ngrx/store';
 import { homeRouteFor } from './core/auth/home-route';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
 import { adminGuard, borrowerGuard } from './core/guards/role.guard';
 import { isSessionActive, selectAuthState } from './store/auth/auth.selectors';
+import { LoansEffects } from './store/loans/loans.effects';
+import { loansReducer } from './store/loans/loans.reducer';
+import { LOANS_FEATURE_KEY } from './store/loans/loans.state';
 
 const placeholder = () => import('./core/placeholder.page').then((m) => m.PlaceholderPage);
 
@@ -23,15 +27,30 @@ export const routes: Routes = [
     canActivate: [guestGuard],
     loadComponent: () => import('./core/auth/login/login.page').then((m) => m.LoginPage),
   },
-  { path: 'loans', canActivate: [authGuard, borrowerGuard], loadComponent: placeholder },
   {
-    path: 'admin',
-    canActivate: [authGuard, adminGuard],
+    // El estado de préstamos (y los límites) se registra una sola vez, al entrar a una vista con sesión.
+    path: '',
+    providers: [provideState(LOANS_FEATURE_KEY, loansReducer), provideEffects(LoansEffects)],
     children: [
-      { path: 'loans', loadComponent: placeholder },
-      { path: 'users', loadComponent: placeholder },
-      { path: 'limits', loadComponent: placeholder },
-      { path: '', pathMatch: 'full', redirectTo: 'loans' },
+      {
+        path: 'loans',
+        canActivate: [authGuard, borrowerGuard],
+        loadComponent: () => import('./features/loans/loans.page').then((m) => m.LoansPage),
+      },
+      {
+        path: 'admin',
+        canActivate: [authGuard, adminGuard],
+        children: [
+          {
+            path: 'loans',
+            loadComponent: () =>
+              import('./features/admin/admin-loans/admin-loans.page').then((m) => m.AdminLoansPage),
+          },
+          { path: 'users', loadComponent: placeholder },
+          { path: 'limits', loadComponent: placeholder },
+          { path: '', pathMatch: 'full', redirectTo: 'loans' },
+        ],
+      },
     ],
   },
   {

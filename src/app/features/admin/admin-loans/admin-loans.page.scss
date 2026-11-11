@@ -1,0 +1,99 @@
+h1 {
+  margin: 0 0 var(--cbl-space-3, 16px);
+  font-size: 1.5rem;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cbl-space-3, 16px);
+  margin-bottom: var(--cbl-space-3, 16px);
+}
+
+.pending {
+  font-weight: 500;
+}
+
+.refresh {
+  margin-left: auto;
+}
+
+.table {
+  display: none;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  vertical-align: top;
+  padding: var(--cbl-space-2, 8px) var(--cbl-space-3, 16px);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+.name {
+  display: block;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.email {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--mat-sys-on-surface-variant);
+  overflow-wrap: anywhere;
+}
+
+.cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--cbl-space-2, 8px);
+}
+
+.card {
+  padding: var(--cbl-space-3, 16px);
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 12px;
+}
+
+.card p {
+  margin: 0;
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--cbl-space-2, 8px);
+  margin-bottom: var(--cbl-space-1, 4px);
+}
+
+dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--cbl-space-1, 4px) var(--cbl-space-3, 16px);
+  margin: var(--cbl-space-2, 8px) 0 0;
+}
+
+dt {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 768px) {
+  .table {
+    display: table;
+  }
+
+  .cards {
+    display: none;
+  }
+}
