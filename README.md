@@ -60,7 +60,7 @@ This project is developed with [GitHub Spec Kit](https://github.com/github/spec-
 | 4 | /speckit.plan | plan.md, contracts/ | Done |
 | 5 | /speckit.tasks | tasks.md | Done |
 | 6 | /speckit.analyze | docs/speckit-log.md | Done |
-| 7 | /speckit.implement | code | In progress: stories 1–9 done; release workflow, accessibility review, ADRs and final validation pending |
+| 7 | /speckit.implement | code | Done: 96/96 tasks; CI green; validated against the mock and the real backend ([quickstart results](specs/001-web-ui/quickstart-results.md), [security review](specs/001-web-ui/security-review.md)) |
 
 ## Documentation
 - Spec Kit prompts per phase: [docs/speckit-log.md](docs/speckit-log.md)
