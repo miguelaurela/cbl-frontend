@@ -79,7 +79,13 @@ export function toAppError(error: unknown): AppError {
     case 404:
       return { ...base, kind: 'notFound', message: detail ?? LABELS.errors.notFound };
     case 409:
-      return { ...base, kind: 'conflict', message: detail ?? LABELS.errors.conflict };
+      // Un conflicto puede traer errores por campo (por ejemplo, correo duplicado en `email`).
+      return {
+        ...base,
+        kind: 'conflict',
+        message: detail ?? LABELS.errors.conflict,
+        fieldErrors: normalizeFieldErrors(body.errors),
+      };
     case 423:
     case 429: {
       const retryAfterSeconds = parseRetryAfter(error);

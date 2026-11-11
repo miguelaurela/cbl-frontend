@@ -10,7 +10,7 @@ Angular 19 (standalone components) · Angular Material · NgRx (`auth`, `loans`,
 ## Pantallas (referencia del PDF)
 1. **Login**: correo y contraseña con validaciones; mensaje genérico ante credenciales incorrectas; mensajes de bloqueo y de límite de solicitudes con el tiempo de espera.
 2. **Prestamista** (Borrower): formulario para solicitar un préstamo (monto y plazo) con los límites vigentes como ayuda, y lista "Mis préstamos" con estado.
-3. **Administrador**: todas las solicitudes con filtro por estado (Pendiente por defecto), contador de pendientes, botón manual "Actualizar", y Aprobar y Rechazar con diálogo de confirmación. La gestión de usuarios y los límites de préstamo llegan después del MVP.
+3. **Administrador**: todas las solicitudes con filtro por estado (Pendiente por defecto), contador de pendientes, botón manual "Actualizar", y Aprobar y Rechazar con diálogo de confirmación. **Usuarios** (administrador): lista, alta, edición, desactivación y reactivación en un diálogo (un administrador no puede desactivar su propia cuenta ni cambiar su propio rol). **Límites de monto** (administrador): consulta y modificación del monto mínimo y máximo; el cambio aplica solo a las solicitudes nuevas.
 
 Credenciales de ejemplo (solo de demostración): `usuario@test.com` / `123` (Prestamista) y `admin@test.com` / `123` (Administrador).
 
@@ -60,7 +60,7 @@ Este proyecto se desarrolla con [GitHub Spec Kit](https://github.com/github/spec
 | 4 | /speckit.plan | plan.md, contracts/ | Hecho |
 | 5 | /speckit.tasks | tasks.md | Hecho |
 | 6 | /speckit.analyze | docs/speckit-log.md | Hecho |
-| 7 | /speckit.implement | código | En curso: historias 1 a 7 (MVP) hechas; historias 8 y 9 y pulido pendientes |
+| 7 | /speckit.implement | código | En curso: historias 1 a 9 hechas; pendientes el flujo de release, la revisión de accesibilidad, los ADR y la validación final |
 
 ## Documentación
 - Prompts de Spec Kit por fase: [docs/speckit-log.md](docs/speckit-log.md)

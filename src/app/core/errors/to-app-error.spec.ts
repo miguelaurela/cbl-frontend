@@ -43,6 +43,12 @@ describe('toAppError', () => {
     );
   });
 
+  it('un 409 conserva los errores por campo (correo duplicado)', () => {
+    const result = toAppError(problem(409, { detail: 'Ya existe', errors: { Email: ['Ya existe un usuario con ese correo.'] } }));
+    expect(result.kind).toBe('conflict');
+    expect(result.fieldErrors['email']).toEqual(['Ya existe un usuario con ese correo.']);
+  });
+
   it('usa un mensaje propio en 403, 404 y 409 sin detalle', () => {
     expect(toAppError(problem(403)).message).toContain('permiso');
     expect(toAppError(problem(404)).message).toContain('No se encontró');

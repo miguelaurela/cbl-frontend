@@ -1,0 +1,80 @@
+<div class="header">
+  <h1>{{ labels.users.title }}</h1>
+  <button mat-flat-button type="button" (click)="openDialog(null)">
+    <mat-icon aria-hidden="true">person_add</mat-icon>
+    {{ labels.users.new }}
+  </button>
+</div>
+
+<app-state-view
+  [loading]="loading()"
+  [error]="errorMessage()"
+  [empty]="empty()"
+  [emptyMessage]="labels.users.empty"
+  (retry)="reload()"
+>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">{{ labels.users.name }}</th>
+        <th scope="col">{{ labels.users.email }}</th>
+        <th scope="col">{{ labels.users.role }}</th>
+        <th scope="col">{{ labels.users.status }}</th>
+        <th scope="col">{{ labels.users.created }}</th>
+        <th scope="col">{{ labels.users.actions }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (user of users(); track user.id) {
+        <tr [class.inactive]="!user.isActive">
+          <td>
+            <span class="name">{{ user.fullName }}</span>
+            @if (isOwn(user)) {
+              <span class="you">{{ labels.users.you }}</span>
+            }
+          </td>
+          <td class="wrap">{{ user.email }}</td>
+          <td>{{ labels.roles[user.role] }}</td>
+          <td>
+            <span class="state" [class.state-off]="!user.isActive">
+              <mat-icon aria-hidden="true">{{ user.isActive ? 'check_circle' : 'block' }}</mat-icon>
+              {{ user.isActive ? labels.users.active : labels.users.inactive }}
+            </span>
+          </td>
+          <td>{{ user.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>
+            <button mat-stroked-button type="button" data-action="edit" (click)="openDialog(user)">
+              <mat-icon aria-hidden="true">edit</mat-icon>
+              {{ labels.users.edit }}
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <ul class="cards">
+    @for (user of users(); track user.id) {
+      <li class="card" [class.inactive]="!user.isActive">
+        <div class="card-head">
+          <span class="name">{{ user.fullName }}</span>
+          @if (isOwn(user)) {
+            <span class="you">{{ labels.users.you }}</span>
+          }
+        </div>
+        <p class="wrap">{{ user.email }}</p>
+        <p>
+          {{ labels.roles[user.role] }} ·
+          <span class="state" [class.state-off]="!user.isActive">
+            <mat-icon aria-hidden="true">{{ user.isActive ? 'check_circle' : 'block' }}</mat-icon>
+            {{ user.isActive ? labels.users.active : labels.users.inactive }}
+          </span>
+        </p>
+        <button mat-stroked-button type="button" data-action="edit" (click)="openDialog(user)">
+          <mat-icon aria-hidden="true">edit</mat-icon>
+          {{ labels.users.edit }}
+        </button>
+      </li>
+    }
+  </ul>
+</app-state-view>

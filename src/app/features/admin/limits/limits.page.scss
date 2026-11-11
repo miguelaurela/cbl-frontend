@@ -1,0 +1,65 @@
+h1 {
+  margin: 0 0 var(--cbl-space-3, 16px);
+  font-size: 1.5rem;
+}
+
+mat-card {
+  max-width: 640px;
+  padding: var(--cbl-space-3, 16px);
+  box-sizing: border-box;
+}
+
+.description {
+  margin: 0 0 var(--cbl-space-3, 16px);
+  color: var(--mat-sys-on-surface-variant);
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--cbl-space-2, 8px);
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.submit {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cbl-space-2, 8px);
+  min-height: 44px;
+}
+
+.banner {
+  margin: 0 0 var(--cbl-space-2, 8px);
+  padding: var(--cbl-space-2, 8px) var(--cbl-space-3, 16px);
+  border-radius: 8px;
+  background: var(--mat-sys-error-container);
+  color: var(--mat-sys-on-error-container);
+  overflow-wrap: anywhere;
+}
+
+.note {
+  display: flex;
+  align-items: center;
+  gap: var(--cbl-space-2, 8px);
+  margin: var(--cbl-space-3, 16px) 0 0;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.note-saved {
+  color: var(--mat-sys-on-surface);
+  font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .submit {
+    grid-column: 1 / -1;
+  }
+}

@@ -241,17 +241,17 @@ Una sola aplicación Angular en la raíz del repositorio, según el plan: `src/a
 
 ### Pruebas de la historia 8 ⚠️
 
-- [ ] T073 [P] [US8] Pruebas del estado y de los efectos en `src/app/store/users/users.reducer.spec.ts`, `users.selectors.spec.ts` y `users.effects.spec.ts`: `loadUsers`, `createUser` y `updateUser` con éxito (recarga la lista) y fallo (409 duplicado → error en `email`; 403 de la propia cuenta → mensaje)
-- [ ] T074 [P] [US8] Pruebas de los validadores en `src/app/shared/validators/user.validators.spec.ts`: correo válido y máximo 256, nombre obligatorio y máximo 200, contraseña de 7 (inválida) y 8 (válida) y máximo 200, opcional al editar, rol `Admin` o `Borrower`
-- [ ] T075 [P] [US8] Pruebas de la página y del diálogo en `src/app/features/admin/users/users.page.spec.ts`: lista con usuarios desactivados distinguidos visualmente; errores junto a cada campo; la fila propia tiene bloqueados desactivar y cambiar el rol con una explicación; estados de carga, vacío y error
+- [x] T073 [P] [US8] Pruebas del estado y de los efectos en `src/app/store/users/users.reducer.spec.ts`, `users.selectors.spec.ts` y `users.effects.spec.ts`: `loadUsers`, `createUser` y `updateUser` con éxito (recarga la lista) y fallo (409 duplicado → error en `email`; 403 de la propia cuenta → mensaje)
+- [x] T074 [P] [US8] Pruebas de los validadores en `src/app/shared/validators/user.validators.spec.ts`: correo válido y máximo 256, nombre obligatorio y máximo 200, contraseña de 7 (inválida) y 8 (válida) y máximo 200, opcional al editar, rol `Admin` o `Borrower`
+- [x] T075 [P] [US8] Pruebas de la página y del diálogo en `src/app/features/admin/users/users.page.spec.ts`: lista con usuarios desactivados distinguidos visualmente; errores junto a cada campo; la fila propia tiene bloqueados desactivar y cambiar el rol con una explicación; estados de carga, vacío y error
 
 ### Implementación de la historia 8
 
-- [ ] T076 [US8] Crear el estado `src/app/store/users/users.state.ts`, `users.actions.ts`, `users.reducer.ts` y `users.selectors.ts` y registrarlo de forma perezosa en las rutas de administración (dep: T020, T073)
-- [ ] T077 [US8] Crear `src/app/store/users/users.effects.ts` (`loadUsers$`, `createUser$`, `updateUser$`; recarga la lista al guardar; 409 con `errors.email` a `fieldErrors`) (dep: T015, T076)
-- [ ] T078 [US8] Crear `src/app/shared/validators/user.validators.ts` (correo, nombre, contraseña de 8 a 200 y rol) (dep: T074)
-- [ ] T079 [US8] Crear `src/app/features/admin/users/users.page.ts|html|scss` y `user-dialog/user-dialog.component.ts|html|scss` (lista con nombre, correo, rol, estado y fecha; alta y edición en un diálogo con Reactive Forms; interruptor de activo; contraseña obligatoria al crear y opcional al restablecer; fila propia con los controles bloqueados y explicación; `StateView`), registrar la ruta `/admin/users` en `src/app/app.routes.ts` y el enlace "Usuarios" en `src/app/app.component.html`, y añadir las etiquetas a `labels.ts` (dep: T017, T018, T077, T078, T075, T041)
-- [ ] T080 [US8] Añadir al mock `GET /api/users`, `POST /api/users` y `PUT /api/users/{id}` en `src/app/core/mock/mock-routes-users.ts` (solo Admin; contraseña de al menos 8; correo duplicado sin distinguir mayúsculas → 409 con `errors.email`; un admin no puede desactivarse ni cambiarse el rol → 403; un usuario desactivado no inicia sesión) (dep: T068)
+- [x] T076 [US8] Crear el estado `src/app/store/users/users.state.ts`, `users.actions.ts`, `users.reducer.ts` y `users.selectors.ts` y registrarlo de forma perezosa en las rutas de administración (dep: T020, T073)
+- [x] T077 [US8] Crear `src/app/store/users/users.effects.ts` (`loadUsers$`, `createUser$`, `updateUser$`; recarga la lista al guardar; 409 con `errors.email` a `fieldErrors`) (dep: T015, T076)
+- [x] T078 [US8] Crear `src/app/shared/validators/user.validators.ts` (correo, nombre, contraseña de 8 a 200 y rol) (dep: T074)
+- [x] T079 [US8] Crear `src/app/features/admin/users/users.page.ts|html|scss` y `user-dialog/user-dialog.component.ts|html|scss` (lista con nombre, correo, rol, estado y fecha; alta y edición en un diálogo con Reactive Forms; interruptor de activo; contraseña obligatoria al crear y opcional al restablecer; fila propia con los controles bloqueados y explicación; `StateView`), registrar la ruta `/admin/users` en `src/app/app.routes.ts` y el enlace "Usuarios" en `src/app/app.component.html`, y añadir las etiquetas a `labels.ts` (dep: T017, T018, T077, T078, T075, T041)
+- [x] T080 [US8] Añadir al mock `GET /api/users`, `POST /api/users` y `PUT /api/users/{id}` en `src/app/core/mock/mock-routes-users.ts` (solo Admin; contraseña de al menos 8; correo duplicado sin distinguir mayúsculas → 409 con `errors.email`; un admin no puede desactivarse ni cambiarse el rol → 403; un usuario desactivado no inicia sesión) (dep: T068)
 
 **Punto de control**: las historias 1 a 8 funcionan.
 
@@ -265,16 +265,16 @@ Una sola aplicación Angular en la raíz del repositorio, según el plan: `src/a
 
 ### Pruebas de la historia 9 ⚠️
 
-- [ ] T081 [P] [US9] Pruebas de `saveLimits$` en `src/app/store/loans/loans.effects.spec.ts` y `loans.reducer.spec.ts`: éxito actualiza `limits` y avisa "se aplica solo a las solicitudes nuevas"; 422 deja `limitsError.fieldErrors` en `minAmount` y `maxAmount`
-- [ ] T082 [P] [US9] Pruebas de los validadores en `src/app/shared/validators/limits.validators.spec.ts`: mínimo ≤ 0, máximo ≤ mínimo, más de 2 decimales y por encima del tope de 1.000.000.000.000
-- [ ] T083 [P] [US9] Pruebas de la página en `src/app/features/admin/limits/limits.page.spec.ts`: muestra el mínimo y el máximo vigentes, valida antes de enviar, muestra el aviso tras guardar y los errores del servidor junto a cada campo
+- [x] T081 [P] [US9] Pruebas de `saveLimits$` en `src/app/store/loans/loans.effects.spec.ts` y `loans.reducer.spec.ts`: éxito actualiza `limits` y avisa "se aplica solo a las solicitudes nuevas"; 422 deja `limitsError.fieldErrors` en `minAmount` y `maxAmount`
+- [x] T082 [P] [US9] Pruebas de los validadores en `src/app/shared/validators/limits.validators.spec.ts`: mínimo ≤ 0, máximo ≤ mínimo, más de 2 decimales y por encima del tope de 1.000.000.000.000
+- [x] T083 [P] [US9] Pruebas de la página en `src/app/features/admin/limits/limits.page.spec.ts`: muestra el mínimo y el máximo vigentes, valida antes de enviar, muestra el aviso tras guardar y los errores del servidor junto a cada campo
 
 ### Implementación de la historia 9
 
-- [ ] T084 [US9] Añadir `saveLimits$` a `src/app/store/loans/loans.effects.ts` y `saveLimits` con sus estados a `loans.actions.ts` y `loans.reducer.ts` (dep: T048, T081)
-- [ ] T085 [US9] Crear `src/app/shared/validators/limits.validators.ts` (mínimo > 0, máximo > mínimo, 2 decimales y tope) (dep: T082)
-- [ ] T086 [US9] Crear `src/app/features/admin/limits/limits.page.ts|html|scss` (formulario con mínimo y máximo, carga de los vigentes, nota "Se aplica solo a las solicitudes nuevas"), registrar la ruta `/admin/limits` en `src/app/app.routes.ts` y el enlace "Límites" en `src/app/app.component.html`, y añadir las etiquetas a `labels.ts` (dep: T017, T018, T084, T085, T083, T041)
-- [ ] T087 [US9] Añadir al mock `PUT /api/parameters/loan-limits` en `src/app/core/mock/mock-routes-loans.ts` (solo Admin; 422 con `errors.minAmount` y `errors.maxAmount`; el cambio aplica a las solicitudes nuevas) (dep: T051, T086)
+- [x] T084 [US9] Añadir `saveLimits$` a `src/app/store/loans/loans.effects.ts` y `saveLimits` con sus estados a `loans.actions.ts` y `loans.reducer.ts` (dep: T048, T081)
+- [x] T085 [US9] Crear `src/app/shared/validators/limits.validators.ts` (mínimo > 0, máximo > mínimo, 2 decimales y tope) (dep: T082)
+- [x] T086 [US9] Crear `src/app/features/admin/limits/limits.page.ts|html|scss` (formulario con mínimo y máximo, carga de los vigentes, nota "Se aplica solo a las solicitudes nuevas"), registrar la ruta `/admin/limits` en `src/app/app.routes.ts` y el enlace "Límites" en `src/app/app.component.html`, y añadir las etiquetas a `labels.ts` (dep: T017, T018, T084, T085, T083, T041)
+- [x] T087 [US9] Añadir al mock `PUT /api/parameters/loan-limits` en `src/app/core/mock/mock-routes-loans.ts` (solo Admin; 422 con `errors.minAmount` y `errors.maxAmount`; el cambio aplica a las solicitudes nuevas) (dep: T051, T086)
 
 **Punto de control**: las nueve historias funcionan.
 

@@ -27,5 +27,9 @@ export const LoansActions = createActionGroup({
     loadLimits: emptyProps(),
     loadLimitsSuccess: props<{ limits: LoanLimits }>(),
     loadLimitsFailure: props<{ error: AppError }>(),
+
+    saveLimits: props<{ limits: LoanLimits }>(),
+    saveLimitsSuccess: props<{ limits: LoanLimits }>(),
+    saveLimitsFailure: props<{ error: AppError }>(),
   },
 });

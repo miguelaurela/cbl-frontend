@@ -50,7 +50,11 @@ export class AppComponent {
       return [];
     }
     return user.role === 'Admin'
-      ? [{ path: '/admin/loans', label: LABELS.nav.requests }]
+      ? [
+          { path: '/admin/loans', label: LABELS.nav.requests },
+          { path: '/admin/users', label: LABELS.nav.users },
+          { path: '/admin/limits', label: LABELS.nav.limits },
+        ]
       : [{ path: '/loans', label: LABELS.nav.myLoans }];
   });
 

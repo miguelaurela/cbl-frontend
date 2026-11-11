@@ -10,7 +10,7 @@ Angular 19 (standalone components) · Angular Material · NgRx (`auth`, `loans`,
 ## Screens (PDF reference)
 1. **Login**: email and password with validation; generic message for wrong credentials; lockout and rate-limit messages with the wait time.
 2. **Borrower** (Prestamista): form to request a loan (amount and term) with the current limits as help, and a "My loans" list with status.
-3. **Admin**: all requests with a status filter (Pending by default), the pending count, a manual "Actualizar" button, and Approve / Reject with a confirmation dialog. Users management and loan limits follow after the MVP.
+3. **Admin**: all requests with a status filter (Pending by default), the pending count, a manual "Actualizar" button, and Approve / Reject with a confirmation dialog. **Users** (admin): list, create, edit, deactivate and reactivate users in a dialog (an admin cannot deactivate their own account or change their own role). **Loan limits** (admin): view and change the minimum and maximum amount; the change applies only to new requests.
 
 Sample credentials (demo only): `usuario@test.com` / `123` (Borrower) and `admin@test.com` / `123` (Admin).
 
@@ -60,7 +60,7 @@ This project is developed with [GitHub Spec Kit](https://github.com/github/spec-
 | 4 | /speckit.plan | plan.md, contracts/ | Done |
 | 5 | /speckit.tasks | tasks.md | Done |
 | 6 | /speckit.analyze | docs/speckit-log.md | Done |
-| 7 | /speckit.implement | code | In progress: stories 1–7 (MVP) done; stories 8–9 and polish pending |
+| 7 | /speckit.implement | code | In progress: stories 1–9 done; release workflow, accessibility review, ADRs and final validation pending |
 
 ## Documentation
 - Spec Kit prompts per phase: [docs/speckit-log.md](docs/speckit-log.md)

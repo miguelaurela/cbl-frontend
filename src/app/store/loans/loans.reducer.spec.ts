@@ -46,6 +46,20 @@ describe('loansReducer', () => {
     expect(state.limitsStatus).toBe('failed');
   });
 
+  it('saveLimits: guarda, actualiza los límites vigentes y conserva los errores por campo al fallar', () => {
+    let state = loansReducer(initialLoansState, LoansActions.saveLimits({ limits: { minAmount: 1, maxAmount: 2 } }));
+    expect(state.limitsSaveStatus).toBe('saving');
+    state = loansReducer(state, LoansActions.saveLimitsFailure({ error }));
+    expect(state.limitsSaveStatus).toBe('failed');
+    expect(state.limitsError?.fieldErrors['amount']).toEqual(['mal']);
+    state = loansReducer(state, LoansActions.saveLimits({ limits: { minAmount: 5, maxAmount: 9 } }));
+    expect(state.limitsError).toBeNull();
+    state = loansReducer(state, LoansActions.saveLimitsSuccess({ limits: { minAmount: 5, maxAmount: 9 } }));
+    expect(state.limits).toEqual({ minAmount: 5, maxAmount: 9 });
+    expect(state.limitsSaveStatus).toBe('saved');
+    expect(loansReducer(state, LoansActions.loadLimits()).limitsSaveStatus).toBe('idle');
+  });
+
   it('loadMine: carga, éxito y fallo', () => {
     let state = loansReducer(initialLoansState, LoansActions.loadMine());
     expect(state.loadStatus.mine).toBe('loading');

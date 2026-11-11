@@ -28,6 +28,28 @@ export class LoansEffects {
     ),
   );
 
+  /** Guarda los límites (administrador): un solo envío a la vez; el cambio aplica solo a solicitudes nuevas. */
+  readonly saveLimits$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LoansActions.saveLimits),
+      exhaustMap(({ limits }) =>
+        this.parametersApi.updateLoanLimits(limits).pipe(
+          map((saved) => LoansActions.saveLimitsSuccess({ limits: saved })),
+          catchError((error: unknown) => of(LoansActions.saveLimitsFailure({ error: toAppError(error) }))),
+        ),
+      ),
+    ),
+  );
+
+  readonly saveLimitsSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(LoansActions.saveLimitsSuccess),
+        tap(() => this.notifications.success(LABELS.limits.saved)),
+      ),
+    { dispatch: false },
+  );
+
   /** Un solo envío a la vez: las pulsaciones repetidas mientras se envía se ignoran. */
   readonly create$ = createEffect(() =>
     this.actions$.pipe(
