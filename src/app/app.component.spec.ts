@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { environment } from '../environments/environment';
 import { AuthActions } from './store/auth/auth.actions';
 import { initialAuthState, type AuthState } from './store/auth/auth.state';
 import { AppComponent } from './app.component';
@@ -29,6 +30,18 @@ describe('AppComponent', () => {
     const element = create();
     expect(element.querySelector('mat-toolbar')?.textContent).toContain('CBL');
     expect(element.querySelector('main router-outlet')).not.toBeNull();
+  });
+
+  it('el aviso de demostración solo aparece en el modo mock', () => {
+    expect(create().querySelector('app-demo-banner')).toBeNull();
+    TestBed.resetTestingModule();
+    environment.useMockApi = true;
+    try {
+      const element = create();
+      expect(element.querySelector('app-demo-banner')?.textContent).toContain('Modo demostración');
+    } finally {
+      environment.useMockApi = false;
+    }
   });
 
   it('sin sesión no muestra usuario, rol, navegación ni "Cerrar sesión"', () => {

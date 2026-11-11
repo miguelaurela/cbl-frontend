@@ -19,6 +19,11 @@ export const LoansActions = createActionGroup({
     createSuccess: props<{ loan: Loan }>(),
     createFailure: props<{ error: AppError }>(),
 
+    /** Aprobar o rechazar una solicitud Pendiente; siempre envía la `version` del préstamo mostrado. */
+    decide: props<{ id: string; decision: 'approve' | 'reject'; version: number }>(),
+    decideSuccess: props<{ loan: Loan; decision: 'approve' | 'reject' }>(),
+    decideFailure: props<{ id: string; error: AppError }>(),
+
     loadLimits: emptyProps(),
     loadLimitsSuccess: props<{ limits: LoanLimits }>(),
     loadLimitsFailure: props<{ error: AppError }>(),

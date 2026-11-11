@@ -97,3 +97,26 @@ dd {
     display: none;
   }
 }
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cbl-space-2, 8px);
+}
+
+td.actions {
+  display: table-cell;
+  white-space: nowrap;
+}
+
+.card .actions {
+  margin-top: var(--cbl-space-2, 8px);
+}
+
+.deciding {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cbl-space-1, 4px);
+  font-size: 0.875rem;
+}

@@ -130,6 +130,78 @@ describe('LoansEffects', () => {
     expect(failure.type).toBe(LoansActions.loadAllFailure.type);
   });
 
+  describe('decide$', () => {
+    it('envía la versión y emite decideSuccess', async () => {
+      const loan = loanFixture({ status: 'Approved', version: 1 });
+      loansApi.approve.and.returnValue(of(loan));
+      actions$.next(LoansActions.decide({ id: 'l1', decision: 'approve', version: 0 }));
+      expect(await firstValueFrom(effects.decide$)).toEqual(LoansActions.decideSuccess({ loan, decision: 'approve' }));
+      expect(loansApi.approve).toHaveBeenCalledWith('l1', 0);
+    });
+
+    it('rechazar llama a reject con la versión', async () => {
+      const loan = loanFixture({ status: 'Rejected', version: 3 });
+      loansApi.reject.and.returnValue(of(loan));
+      actions$.next(LoansActions.decide({ id: 'l1', decision: 'reject', version: 2 }));
+      await firstValueFrom(effects.decide$);
+      expect(loansApi.reject).toHaveBeenCalledWith('l1', 2);
+    });
+
+    it('un error emite decideFailure con el id', async () => {
+      loansApi.approve.and.returnValue(throwError(() => problem(409, { detail: 'Ya decidida' })));
+      actions$.next(LoansActions.decide({ id: 'l1', decision: 'approve', version: 0 }));
+      const action = (await firstValueFrom(effects.decide$)) as ReturnType<typeof LoansActions.decideFailure>;
+      expect(action.id).toBe('l1');
+      expect(action.error.kind).toBe('conflict');
+    });
+
+    it('ignora decisiones repetidas sobre la misma solicitud mientras hay una en curso', () => {
+      TestBed.resetTestingModule();
+      const source = new Subject<Action>();
+      loansApi.approve.and.returnValue(new Subject<ReturnType<typeof loanFixture>>());
+      TestBed.configureTestingModule({
+        providers: [
+          LoansEffects,
+          provideMockActions(() => source),
+          { provide: LoansApi, useValue: loansApi },
+          { provide: ParametersApi, useValue: parametersApi },
+          { provide: NotificationService, useValue: notifications },
+        ],
+      });
+      TestBed.inject(LoansEffects).decide$.subscribe();
+      const decide = LoansActions.decide({ id: 'l1', decision: 'approve', version: 0 });
+      source.next(decide);
+      source.next(decide);
+      source.next(decide);
+      source.next(LoansActions.decide({ id: 'l2', decision: 'approve', version: 0 }));
+      expect(loansApi.approve).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('tras decidir', () => {
+    it('decideSuccess$ avisa y recarga la lista', async () => {
+      actions$.next(LoansActions.decideSuccess({ loan: loanFixture(), decision: 'approve' }));
+      expect(await firstValueFrom(effects.decideSuccess$)).toEqual(LoansActions.loadAll());
+      expect(notifications.success).toHaveBeenCalledWith('Solicitud aprobada.');
+    });
+
+    it('un 409 avisa "ya fue decidida por otra persona" y recarga', async () => {
+      const error = { kind: 'conflict', status: 409, title: 't', message: 'm', fieldErrors: {} } as const;
+      actions$.next(LoansActions.decideFailure({ id: 'l1', error }));
+      expect(await firstValueFrom(effects.decideFailure$)).toEqual(LoansActions.loadAll());
+      expect(notifications.error).toHaveBeenCalledWith(jasmine.stringMatching(/ya fue decidida por otra persona/));
+    });
+
+    it('otros errores avisan y no recargan (todo queda como estaba)', () => {
+      const error = { kind: 'unexpected', status: 500, title: 't', message: 'm', fieldErrors: {} } as const;
+      const emitted: Action[] = [];
+      effects.decideFailure$.subscribe((a) => emitted.push(a));
+      actions$.next(LoansActions.decideFailure({ id: 'l1', error }));
+      expect(emitted).toEqual([]);
+      expect(notifications.error).toHaveBeenCalledWith(jasmine.stringMatching(/sigue como estaba/));
+    });
+  });
+
   it('cambiar el filtro no genera ninguna petición', () => {
     effects.loadAll$.pipe(toArray()).subscribe();
     actions$.next(LoansActions.setFilter({ filter: 'Approved' }));

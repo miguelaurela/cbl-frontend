@@ -1,5 +1,5 @@
 import { loanFixture } from '../../testing/fixtures';
-import { selectAllLoansFiltered, selectMyLoans, selectPendingCount } from './loans.selectors';
+import { selectAllLoansFiltered, selectIsDeciding, selectMyLoans, selectPendingCount } from './loans.selectors';
 import { initialLoansState, type LoansState } from './loans.state';
 
 const root = (loans: Partial<LoansState>) => ({ loans: { ...initialLoansState, ...loans } });
@@ -27,6 +27,12 @@ describe('loans selectors', () => {
     for (const filter of ['All', 'Pending', 'Approved', 'Rejected'] as const) {
       expect(selectPendingCount(root({ all, filter }))).toBe(2);
     }
+  });
+
+  it('selectIsDeciding indica si hay una decisión en curso para ese id', () => {
+    const state = root({ decidingIds: ['a'] });
+    expect(selectIsDeciding('a')(state)).toBeTrue();
+    expect(selectIsDeciding('b')(state)).toBeFalse();
   });
 
   it('con la lista vacía el contador es 0', () => {

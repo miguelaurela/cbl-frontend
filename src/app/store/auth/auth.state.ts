@@ -8,7 +8,7 @@ export type AuthNotice = 'expired' | 'unauthorized' | 'loggedOut';
 
 export interface AuthState {
   status: AuthStatus;
-  /** Solo en memoria: nunca se escribe en localStorage, sessionStorage ni cookies. */
+  /** Solo en memoria: nunca se persiste en el navegador (ni almacenamiento ni cookies). */
   token: string | null;
   user: SessionUser | null;
   /** Instante de caducidad (ISO) devuelto por el login. */

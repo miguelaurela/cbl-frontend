@@ -36,6 +36,7 @@
         <th scope="col">{{ labels.myLoans.status }}</th>
         <th scope="col">{{ labels.myLoans.requested }}</th>
         <th scope="col">{{ labels.adminLoans.decidedBy }}</th>
+        <th scope="col">{{ labels.adminLoans.actions }}</th>
       </tr>
     </thead>
     <tbody>
@@ -56,6 +57,9 @@
             } @else {
               {{ labels.myLoans.notDecided }}
             }
+          </td>
+          <td class="actions">
+            <ng-container *ngTemplateOutlet="decisionButtons; context: { $implicit: loan }" />
           </td>
         </tr>
       }
@@ -85,7 +89,42 @@
             }
           </dd>
         </dl>
+        <div class="actions">
+          <ng-container *ngTemplateOutlet="decisionButtons; context: { $implicit: loan }" />
+        </div>
       </li>
     }
   </ul>
 </app-state-view>
+
+<!-- Aprobar y Rechazar: solo en solicitudes Pendientes; deshabilitados mientras la decisión está en curso. -->
+<ng-template #decisionButtons let-loan>
+  @if (loan.status === 'Pending') {
+    @if (isDeciding(loan.id)) {
+      <span class="deciding" role="status">
+        <mat-spinner diameter="18" aria-hidden="true" />
+        {{ labels.adminLoans.deciding }}
+      </span>
+    }
+    <button
+      mat-stroked-button
+      type="button"
+      data-action="approve"
+      [disabled]="isDeciding(loan.id)"
+      (click)="decide(loan, 'approve')"
+    >
+      <mat-icon aria-hidden="true">check</mat-icon>
+      {{ labels.adminLoans.approve }}
+    </button>
+    <button
+      mat-stroked-button
+      type="button"
+      data-action="reject"
+      [disabled]="isDeciding(loan.id)"
+      (click)="decide(loan, 'reject')"
+    >
+      <mat-icon aria-hidden="true">close</mat-icon>
+      {{ labels.adminLoans.reject }}
+    </button>
+  }
+</ng-template>
