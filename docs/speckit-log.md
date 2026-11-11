@@ -57,8 +57,14 @@ Entrega
 - What I changed by hand and why | Qué cambié a mano y por qué: nada; aprobada por el usuario tal como se generó. / Nothing; approved by the user as generated.
 
 ## Phase 3 – /speckit.clarify | Fase 3
-- Date | Fecha:
-- Questions and answers | Preguntas y respuestas:
+- Agent | Agente: Claude Code (`/speckit-clarify`). Rama `001-web-ui`.
+- Date | Fecha: 2026-11-11
+- Questions and answers | Preguntas y respuestas: el agente hizo el barrido de ambigüedades y resolvió 9 puntos (límite de la skill: 5 preguntas al usuario; se le hicieron 4). Quedaron registrados en `## Clarifications` de `spec.md`.
+  - Respondidas por el usuario (4, opción recomendada en todas) | Answered by the user (4, recommended option each): (1) el `traceId` se muestra solo en errores inesperados; (2) tras iniciar sesión se vuelve a la pantalla pedida si el rol lo permite; (3) la lista del admin se actualiza con un botón "Actualizar" manual, sin sondeo; (4) fechas como `11/11/2026 17:30` (día/mes/año, 24 h, zona horaria del navegador).
+  - Resueltas desde los documentos del repo, sin preguntar (5) | Resolved from repo documents, not asked (5): confirmación al aprobar o rechazar (FE-41 de `tasks-frontend.md`); sin editar ni eliminar préstamos propios en la interfaz (contrato asumido: "not used by the UI"); pantalla de límites en el alcance tras el MVP (ADR-0025, FE-52); al caducar la sesión se vuelve al acceso con un mensaje, sin aviso previo (ADR-0013, ADR-0020); accesibilidad (FE-70).
+  - Supuesto por defecto NO confirmado | Unconfirmed default assumption: no hay aviso previo a la expiración de la sesión ni renovación.
+- Spec changes | Cambios en el spec: FR-016, FR-024, FR-025 y FR-026 ajustados; escenario nuevo en la historia 5 (botón "Actualizar"); SC-013 añadido; caso límite nuevo; supuestos resueltos retirados. Total: 30 FR y 13 SC, 0 marcadores; checklist sin regresiones (15/15). / FR-016, 024, 025, 026 adjusted; new scenario in story 5; SC-013 added; new edge case; resolved assumptions removed.
+- What I changed by hand and why | Qué cambié a mano y por qué: nada; aprobado por el usuario tal como se generó. / Nothing; approved by the user as generated.
 
 ## Phase 4 – /speckit.plan | Fase 4
 - Date | Fecha:

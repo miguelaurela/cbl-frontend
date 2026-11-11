@@ -16,6 +16,25 @@
 
 Existen exactamente dos roles de usuario (Admin y Borrower); todo usuario tiene uno y solo uno. El backend es la fuente de verdad de las reglas de negocio y siempre revalida la autorización: la interfaz solo las refleja para guiar al usuario.
 
+## Clarifications
+
+### Session 2026-11-11
+
+Respondidas por el usuario (4):
+
+- Q: ¿Se muestra al usuario el código de referencia (`traceId`) del servidor en los errores? → A: Sí, solo en los errores inesperados (fallos del servidor o errores no clasificados); los errores normales (validación, conflicto, acceso denegado) no lo muestran.
+- Q: ¿Se vuelve a la pantalla pedida tras iniciar sesión después de una redirección o expiración? → A: Sí, a la pantalla pedida si el rol lo permite; si no, a la vista propia del rol.
+- Q: ¿Cómo se entera el administrador de las solicitudes nuevas? → A: Botón "Actualizar" manual; la lista se carga al abrir, al cambiar el filtro y tras cada decisión, sin actualización periódica automática.
+- Q: ¿Qué formato de fecha y hora se usa? → A: Día/mes/año con hora de 24 h (por ejemplo, 11/11/2026 17:30), en la zona horaria del navegador.
+
+Resueltas con las decisiones ya registradas en el repositorio (5):
+
+- Q: ¿Aprobar y Rechazar piden confirmación? → A: Sí, un diálogo de confirmación breve que muestra prestamista, monto y plazo (plan de tareas del frontend, FE-41).
+- Q: ¿La interfaz ofrece editar o eliminar préstamos propios? → A: No; la API lo soporta, pero el contrato asumido por el frontend lo marca como "no usado por la interfaz".
+- Q: ¿Está la pantalla de límites de monto en el alcance? → A: Sí, se construye después del MVP, junto a la de usuarios (ADR-0025 y FE-52).
+- Q: ¿Qué ocurre cuando caduca la sesión? → A: Vuelve a la pantalla de acceso con un mensaje, sin aviso previo ni renovación (ADR-0013, ADR-0020).
+- Q: ¿Qué requisitos de accesibilidad se cumplen? → A: Etiqueta en cada campo, foco visible, avisos anunciados a lectores de pantalla, diálogos operables con el teclado y estados que no dependen solo del color (plan de tareas, FE-70).
+
 ## Escenarios de usuario y pruebas *(obligatorio)*
 
 ### Historia de usuario 1 – Iniciar sesión (Prioridad: P1)
@@ -109,7 +128,8 @@ Como administrador, quiero ver todas las solicitudes con el prestamista, el mont
 2. **Dado** el filtro por estado (Todos, Pendiente, Aprobado, Rechazado), **cuando** el administrador lo cambia, **entonces** la lista muestra solo ese estado; por defecto se muestra Pendiente, con la cantidad de pendientes visible.
 3. **Dado** un filtro sin resultados, **cuando** se aplica, **entonces** se muestra un mensaje de "no hay solicitudes con este filtro".
 4. **Dado** la lista, **cuando** hay muchas solicitudes, **entonces** se muestran todas (sin paginación).
-5. **Dado** una pantalla estrecha, **cuando** se abre esta vista, **entonces** las solicitudes se presentan en un formato legible sin desplazamiento horizontal.
+5. **Dado** que un prestamista creó una solicitud después de abrir la lista, **cuando** el administrador pulsa "Actualizar", **entonces** la lista se recarga desde el servidor, conserva el filtro elegido y muestra la solicitud nueva; la lista no se actualiza sola.
+6. **Dado** una pantalla estrecha, **cuando** se abre esta vista, **entonces** las solicitudes se presentan en un formato legible sin desplazamiento horizontal.
 
 ---
 
@@ -197,6 +217,7 @@ Como administrador, quiero consultar y modificar los límites de monto de los pr
 - Pulsar "atrás" tras cerrar sesión: no se ve contenido privado.
 - Lista de solicitudes o de préstamos vacía, o filtro sin resultados: mensaje de lista vacía.
 - Montos muy grandes o con 2 decimales: se muestran con formato monetario legible en dólares.
+- Un prestamista crea una solicitud mientras el administrador tiene la lista abierta: no aparece hasta que el administrador pulsa "Actualizar", cambia el filtro o decide sobre otra.
 - Pantallas estrechas (a partir de 360 px de ancho): todas las vistas son utilizables sin desplazamiento horizontal.
 - Respuestas de error con formato inesperado o sin cuerpo: mensaje genérico según el código, sin mostrar detalles internos.
 - Correo con otra capitalización al iniciar sesión: se trata como el mismo usuario (lo resuelve el servidor).
@@ -228,7 +249,7 @@ Como administrador, quiero consultar y modificar los límites de monto de los pr
 **Administrador**
 
 - **FR-015**: La vista del administrador MUST listar todas las solicitudes con prestamista (nombre y correo), monto, plazo, estado, fecha de solicitud y, si fue decidida, quién decidió y cuándo; las más recientes primero, sin paginación.
-- **FR-016**: La lista MUST poder filtrarse por estado (Todos, Pendiente, Aprobado, Rechazado), con Pendiente por defecto y la cantidad de pendientes visible.
+- **FR-016**: La lista MUST poder filtrarse por estado (Todos, Pendiente, Aprobado, Rechazado), con Pendiente por defecto y la cantidad de pendientes visible. La lista MUST ofrecer un botón "Actualizar" que la recarga desde el servidor conservando el filtro; no se actualiza sola de forma periódica.
 - **FR-017**: Las acciones Aprobar y Rechazar MUST estar disponibles solo en solicitudes Pendientes, pedir una confirmación breve, enviarse una sola vez aunque se pulse repetidamente y, al terminar, refrescar la lista desde el servidor.
 - **FR-018**: Ante un conflicto de decisión (otra persona decidió antes), la aplicación MUST explicarlo con un mensaje claro y refrescar la lista con el estado real.
 
@@ -245,9 +266,9 @@ Como administrador, quiero consultar y modificar los límites de monto de los pr
 
 **Transversales**
 
-- **FR-024**: Todas las etiquetas y mensajes de la interfaz MUST estar en español; los importes en dólares estadounidenses con formato `en-US`; las fechas en un formato legible para el usuario.
-- **FR-025**: Los errores del servidor MUST mostrarse así: errores de validación junto a su campo (o como mensaje si no hay campo); acceso denegado, no encontrado y conflicto como mensaje claro; bloqueo y límite de solicitudes con el tiempo de espera; fallos de red u otros errores como mensaje genérico, sin detalles internos.
-- **FR-026**: Todas las vistas MUST mostrar estados de carga, de error (con opción de reintentar) y de lista vacía, y MUST ser utilizables desde 360 px de ancho y con el teclado.
+- **FR-024**: Todas las etiquetas y mensajes de la interfaz MUST estar en español; los importes en dólares estadounidenses con formato `en-US`; las fechas y horas con formato día/mes/año y hora de 24 h (por ejemplo, 11/11/2026 17:30) en la zona horaria del navegador.
+- **FR-025**: Los errores del servidor MUST mostrarse así: errores de validación junto a su campo (o como mensaje si no hay campo); acceso denegado, no encontrado y conflicto como mensaje claro; bloqueo y límite de solicitudes con el tiempo de espera; fallos de red u otros errores como mensaje genérico, sin detalles internos. Solo los errores inesperados incluyen el código de referencia (`traceId`) del servidor, cuando existe, para que el usuario lo cite a soporte; los demás errores no lo muestran.
+- **FR-026**: Todas las vistas MUST mostrar estados de carga, de error (con opción de reintentar) y de lista vacía, y MUST ser utilizables desde 360 px de ancho y con el teclado, con etiqueta visible en cada campo, foco visible, avisos anunciados a lectores de pantalla, diálogos operables con el teclado y estados que no dependan solo del color.
 - **FR-027**: Cualquier texto que provenga del servidor MUST mostrarse como texto, nunca interpretado como contenido ejecutable.
 
 **Modo demostración (sin backend)**
@@ -280,6 +301,7 @@ Como administrador, quiero consultar y modificar los límites de monto de los pr
 - **SC-010**: En modo demostración se pueden recorrer de extremo a extremo todas las historias P1 sin backend.
 - **SC-011**: El 100 % de los intentos de un administrador por desactivar su cuenta o cambiar su rol desde la interfaz quedan bloqueados.
 - **SC-012**: Tras cambiar los límites, la siguiente vez que un prestamista abre el formulario valida con los valores nuevos.
+- **SC-013**: El administrador ve las solicitudes creadas después de abrir la lista con una sola pulsación de "Actualizar", sin recargar la página y sin perder el filtro.
 
 ## Supuestos
 
@@ -287,9 +309,8 @@ Como administrador, quiero consultar y modificar los límites de monto de los pr
 - La sesión dura 10 minutos y no se renueva: es el comportamiento del servidor. Perder la sesión al recargar es un compromiso asumido por seguridad.
 - La lista de solicitudes del administrador no se pagina (el volumen es pequeño) y se muestra con el filtro Pendiente por defecto.
 - Editar y eliminar préstamos propios está soportado por la API, pero la interfaz no lo ofrece en esta versión (la prueba exige solicitar, consultar y decidir).
-- Aprobar y Rechazar piden una confirmación breve porque la decisión es final (supuesto por defecto, no confirmado por el usuario).
-- Si un error genérico incluye un código de referencia del servidor, se muestra al usuario para facilitar el soporte (supuesto por defecto, no confirmado).
-- Tras un cierre de sesión por expiración o por 401, el usuario vuelve a la pantalla de acceso con un aviso; después de iniciar sesión vuelve a la pantalla que había pedido si su rol lo permite (supuesto por defecto).
+- Tras un cierre de sesión por expiración o por 401, el usuario vuelve a la pantalla de acceso con un aviso; no hay aviso previo a la expiración ni renovación (supuesto por defecto, no confirmado por el usuario).
+- No hay actualización periódica automática de las listas: se actualizan al abrir, al cambiar el filtro, tras cada acción y con el botón "Actualizar" (decisión del usuario).
 - Los montos están en una única moneda (USD); no hay conversión.
 - El contrato con el backend ya incluye el cierre de sesión en el servidor, el bloqueo con tiempo de espera y el límite de solicitudes; el modo demostración los reproduce.
 - Dependencia: el backend publicado (o el modo demostración) debe estar disponible para ejecutar la aplicación de extremo a extremo.
