@@ -78,5 +78,11 @@ Entrega
 - What I changed by hand and why | Qué cambié a mano y por qué: nada; aprobado por el usuario tal como se generó. Antes de la aprobación el agente citó en research y plan los requisitos FR-027, FR-028 y los criterios SC-001 y SC-010, que no tenían referencia explícita. / Nothing; approved by the user as generated, after the agent added explicit references for FR-027, FR-028, SC-001 and SC-010.
 
 ## Phase 5 – /speckit.tasks | Fase 5
+- Agent | Agente: Claude Code (`/speckit-tasks`). Rama `001-web-ui`.
+- Date | Fecha: 2026-11-11
+- Prompt applied | Prompt aplicado: usar `docs/planning/tasks-frontend.md` como base, ajustado al plan (desviaciones D1–D13).
+- What it generated | Qué generó: `specs/001-web-ui/tasks.md` con 96 tareas (42 `[P]`): Preparación 8, Fundamentos 14, US1 9, US2 12, US3 8, US4 5, US5 7, US6 5, US7 4, US8 8, US9 7, Pulido 9. Incluye tareas de prueba (la constitución las exige), rutas exactas y las rutas del mock dentro de cada historia. Validado con un script: formato, IDs secuenciales, etiquetas por historia, dependencias sin referencias hacia adelante y una ruta en cada tarea.
+- MVP cut | Corte de MVP: historias 1 a 7 más T088 (`ci.yml`), T090 (endurecimiento) y T092 (README); después US8 y US9. Recorte si falta tiempo: T093 (ADR) → T089 (`release.yml`) → US9 → US8.
+- What I changed by hand and why | Qué cambié a mano y por qué: nada; aprobado por el usuario tal como se generó. Antes de la aprobación el agente añadió la cabecera de requisitos transversales (FR-024 a FR-027) a la fase de Fundamentos. / Nothing; approved by the user as generated, after the agent added the cross-cutting requirements header (FR-024 to FR-027) to the Foundations phase.
 ## Phase 6 – /speckit.analyze | Fase 6
 ## Phase 7 – /speckit.implement | Fase 7
