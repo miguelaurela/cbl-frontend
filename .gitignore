@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.angular/
+coverage/
+*.log
+.env
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Spec Kit: NO se ignoran .specify/ ni specs/ (son evidencia del proceso)
