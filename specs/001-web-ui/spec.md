@@ -208,7 +208,7 @@ Como administrador, quiero consultar y modificar los límites de monto de los pr
 
 ### Casos límite
 
-- La sesión caduca mientras el usuario rellena un formulario o con una acción en curso: se informa de que la sesión expiró y se vuelve al acceso sin perder el contexto de forma silenciosa.
+- La sesión caduca mientras el usuario rellena un formulario o con una acción en curso: se muestra "Tu sesión expiró", se vuelve al acceso y no se conserva lo escrito en el formulario (no se guarda nada en el navegador).
 - Un administrador decide sobre una solicitud que otro acaba de decidir: mensaje de conflicto y lista refrescada.
 - Los límites cambian mientras el prestamista rellena el formulario: el servidor rechaza con error en el monto y se muestra junto al campo.
 - Fallo de red o servidor no disponible: mensaje claro y reintento posible, nunca una pantalla en blanco.

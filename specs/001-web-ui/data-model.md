@@ -49,8 +49,8 @@ Selectores: `selectToken`, `selectUser`, `selectRole`, `selectIsAuthenticated` (
 
 | Campo | Tipo | Regla |
 |---|---|---|
-| `mine` / `all` | `Loan[]` | Listas del prestamista y del administrador |
-| `filter` | `'All' \| LoanStatus` | Por defecto `Pending` en la vista del administrador |
+| `mine` / `all` | `Loan[]` | Listas del prestamista y del administrador; `all` es la lista completa (sin `status`) |
+| `filter` | `'All' \| LoanStatus` | Por defecto `Pending` en la vista del administrador; se aplica solo en el cliente, sin nueva petición |
 | `loadStatus` | `{ mine, all }` cada uno `idle \| loading \| loaded \| failed` | |
 | `loadError` | `AppError \| null` | |
 | `submitStatus` / `submitError` | `idle \| submitting \| …` / `AppError \| null` | `submitError.fieldErrors` alimenta el formulario de solicitud |
@@ -58,8 +58,9 @@ Selectores: `selectToken`, `selectUser`, `selectRole`, `selectIsAuthenticated` (
 | `limits` | `LoanLimits \| null` | Límites vigentes; se recargan al abrir el formulario |
 | `limitsStatus` / `limitsSaveStatus` / `limitsError` | estados y `AppError \| null` | Lectura y guardado del administrador |
 
-Selectores: `selectMyLoans` (más recientes primero), `selectAllLoansFiltered`, `selectPendingCount`, `selectIsDeciding(id)`,
-`selectLoansLoading`, `selectLoansError`, `selectLimits`. Acciones: `loadMine`, `loadAll({ status? })`, `create`,
+Selectores: `selectMyLoans` (más recientes primero), `selectAllLoansFiltered` (filtra la lista completa), `selectPendingCount` (Pendientes de la lista completa, sea cual sea el
+filtro), `selectIsDeciding(id)`, `selectLoansLoading`, `selectLoansError`, `selectLimits`. Acciones: `loadMine`, `loadAll`,
+`setFilter`, `create`,
 `decide({ id, decision, version })`, `loadLimits`, `saveLimits` (cada una con sus variantes de éxito y fallo).
 
 ### `users` (perezoso)

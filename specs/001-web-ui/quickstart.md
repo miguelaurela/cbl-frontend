@@ -60,16 +60,16 @@ contra la API real.
 | 3 | Credenciales incorrectas | Contraseña mala | Un único mensaje genérico en el formulario; no se cierra nada | FR-003 |
 | 4 | Bloqueo (API) | 5 fallos con el mismo correo y un sexto intento | Mensaje de bloqueo con el tiempo de espera, también con un correo inexistente | FR-004 |
 | 5 | Rutas protegidas | Abrir `/admin/loans` sin sesión; abrir una ruta de administración como prestamista | Redirige al acceso; al iniciar sesión vuelve a la pantalla pedida si el rol lo permite; el prestamista va a su vista con un aviso | FR-009, SC-002 |
-| 6 | Solicitar un préstamo | Prestamista: monto 5.000 y plazo 12 | Confirmación, formulario limpio y préstamo Pendiente en "Mis préstamos" | FR-011, FR-012 |
+| 6 | Solicitar un préstamo | Prestamista: monto 5.000 y plazo 12 | Confirmación, formulario limpio y préstamo Pendiente en "Mis préstamos"; cronometrar el acceso y la solicitud: menos de 1 minuto | FR-011, FR-012, SC-001 |
 | 7 | Validación de la solicitud | Monto 0, 999,99 o 100.000,01, con 3 decimales; plazo 0 y 61 | Error junto al campo y no se envía; los límites se ven como ayuda | FR-011 |
 | 8 | Error del servidor por campo (API) | Cambiar los límites desde otra sesión y enviar un monto que ya no es válido | El 422 aparece junto al campo monto | FR-025, SC-005 |
 | 9 | Estados de la lista | Cuenta sin préstamos; forzar error (modo mock: `fail500@test.com` en el login) | Lista vacía con invitación; error con "Reintentar"; carga con indicador | FR-013, FR-026, SC-006 |
 | 10 | Vista del administrador | Entrar como administrador | Todas las solicitudes con prestamista, monto, plazo, estado y fechas, más recientes primero | FR-015 |
-| 11 | Filtro y actualizar | Cambiar el filtro; crear una solicitud desde otra sesión y pulsar "Actualizar" | Muestra solo ese estado, con el contador de pendientes; la nueva solicitud aparece sin perder el filtro | FR-016, SC-013 |
+| 11 | Filtro y actualizar | Cambiar el filtro; crear una solicitud desde otra sesión y pulsar "Actualizar" | Muestra solo ese estado sin nueva petición; el contador de pendientes se mantiene; la nueva solicitud aparece sin perder el filtro | FR-016, SC-013 |
 | 12 | Aprobar | Aprobar una pendiente y confirmar | Diálogo de confirmación; la lista se recarga y muestra el estado, quién y cuándo | FR-017, SC-003 |
 | 13 | Doble clic | Pulsar Aprobar dos veces rápido | Una sola decisión | FR-017, SC-009 |
 | 14 | Conflicto de decisión | Decidir la misma solicitud desde dos pestañas | Mensaje de que ya fue decidida y lista refrescada | FR-018 |
-| 15 | Cerrar sesión | Pulsar "Cerrar sesión" | Vuelve al acceso; la sesión se revoca en el servidor (API: el mismo token da 401) | FR-007 |
+| 15 | Cerrar sesión | Pulsar "Cerrar sesión" | Vuelve al acceso; la sesión se revoca en el servidor (API: el mismo token da 401); pulsar "atrás" no muestra contenido privado | FR-007, FR-009 |
 | 16 | Caducidad | Esperar 10 minutos (o simular el reloj en las pruebas) | Cierre automático con aviso "Tu sesión expiró" | FR-006, SC-004 |
 | 17 | Recarga | Recargar la página con sesión | Vuelve al acceso (esperado) | FR-005 |
 | 18 | Sin almacenamiento | Iniciar sesión y revisar el almacenamiento del navegador | Ningún dato de sesión en `localStorage`, `sessionStorage` ni cookies | FR-005, SC-008 |
