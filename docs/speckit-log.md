@@ -67,9 +67,15 @@ Entrega
 - What I changed by hand and why | Qué cambié a mano y por qué: nada; aprobado por el usuario tal como se generó. / Nothing; approved by the user as generated.
 
 ## Phase 4 – /speckit.plan | Fase 4
-- Date | Fecha:
+- Agent | Agente: Claude Code (`/speckit-plan`). Rama `001-web-ui`.
+- Date | Fecha: 2026-11-11
 - Prompt used | Prompt usado: (pin Angular 19, Angular Material, NgRx, Reactive Forms, the API base URL from `environment`, the `mock` configuration, and the backend OpenAPI copied to `specs/001-web-ui/contracts/openapi.yaml` | fijar Angular 19, Angular Material, NgRx, Reactive Forms, la URL base de la API desde `environment`, la configuración `mock` y el OpenAPI del backend copiado en `specs/001-web-ui/contracts/openapi.yaml`)
-- What I changed by hand and why | Qué cambié a mano y por qué:
+- What it generated | Qué generó: `specs/001-web-ui/plan.md` (contexto técnico, verificación de la constitución sin violaciones, tabla de desviaciones D1–D13, estructura del proyecto), `research.md` (15 decisiones), `data-model.md` (tipos del contrato, estado de NgRx, validaciones, transiciones), `quickstart.md` (23 escenarios) y `contracts/` (`openapi.yaml`, copia del contrato del backend en `cbl-backend@f92f9d5`, y `reconciliation.md`, la conciliación FE-74 con los 9 puntos de la lista y las diferencias).
+- Versions pinned | Versiones fijadas: Angular 19.2.x (core 19.2.25), Angular Material y CDK 19.2.19, NgRx 19.2.1, TypeScript 5.8, RxJS 7.8, zone.js 0.15, angular-eslint 19.8, Karma 6.4 + Jasmine 5, `openapi-typescript` 7. Node: CI y `.nvmrc` 22 LTS; local 18.19.1+ (la máquina tiene 18.20.8 y 20.19.0).
+- Key decisions | Decisiones clave: los límites de monto viven en el slice `loans` (la constitución enumera tres slices); la página de login va en `core/auth`; tipos generados desde el OpenAPI con comprobación en CI; mock excluido del build de producción por sustitución de archivos (no por bandera); `config.json` en tiempo de ejecución para la URL de la API; `POST /api/auth/logout` al cerrar sesión; decidir envía siempre `{ version }`; `returnUrl` validado; `traceId` solo en errores inesperados.
+- Reconciliation findings | Hallazgos de la conciliación: coinciden los 9 puntos; el backend añadió `POST /api/auth/logout`, no existe `DELETE /api/users/{id}`, el nombre de usuario admite 200 caracteres (no 100) y los mensajes de error del servidor vienen en español.
+- Prompt applied | Prompt aplicado (resumen): fijar Angular 19, Angular Material, NgRx, Reactive Forms, la URL base desde `environment`, la configuración `mock` y el OpenAPI del backend copiado en `specs/001-web-ui/contracts/openapi.yaml`; usar `docs/planning/tasks-frontend.md` como borrador.
+- What I changed by hand and why | Qué cambié a mano y por qué: nada; aprobado por el usuario tal como se generó. Antes de la aprobación el agente citó en research y plan los requisitos FR-027, FR-028 y los criterios SC-001 y SC-010, que no tenían referencia explícita. / Nothing; approved by the user as generated, after the agent added explicit references for FR-027, FR-028, SC-001 and SC-010.
 
 ## Phase 5 – /speckit.tasks | Fase 5
 ## Phase 6 – /speckit.analyze | Fase 6
