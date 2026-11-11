@@ -4,6 +4,7 @@ import { delay, of, throwError } from 'rxjs';
 import { API_BASE_URL } from '../api/api-base-url.token';
 import { MOCK_CLOCK, MOCK_LATENCY } from './mock-clock';
 import { MockDb } from './mock-db';
+import { AUTH_ROUTES } from './mock-routes-auth';
 import { matchRoute, problem, type MockResult, type MockRoute } from './mock-router';
 import { parseMockToken, type MockClaims } from './mock-token';
 
@@ -11,7 +12,7 @@ import { parseMockToken, type MockClaims } from './mock-token';
 export const MOCK_MARKER = '__CBL_MOCK_API__';
 
 /** Tabla de rutas del mock; cada historia añade su archivo `mock-routes-*.ts`. */
-export const MOCK_ROUTES: MockRoute[] = [];
+export const MOCK_ROUTES: MockRoute[] = [...AUTH_ROUTES];
 
 /** Resuelve el token Bearer: devuelve claims válidos o la respuesta 401 que corresponde. */
 function authenticate(

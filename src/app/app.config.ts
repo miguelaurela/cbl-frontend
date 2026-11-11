@@ -8,7 +8,12 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { API_BASE_URL } from './core/api/api-base-url.token';
 import { loadRuntimeConfig, RUNTIME_CONFIG } from './core/config/runtime-config';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { MOCK_API_INTERCEPTORS } from './core/mock/mock-api.providers';
+import { AuthEffects } from './store/auth/auth.effects';
+import { authReducer } from './store/auth/auth.reducer';
+import { AUTH_FEATURE_KEY } from './store/auth/auth.state';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -16,10 +21,10 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimationsAsync(),
-    // Los interceptores propios se añaden en T039, siempre antes de los del mock.
-    provideHttpClient(withInterceptors([...MOCK_API_INTERCEPTORS])),
-    provideStore({}),
-    provideEffects(),
+    // Los interceptores propios van primero; el del mock, siempre el último.
+    provideHttpClient(withInterceptors([authInterceptor, errorInterceptor, ...MOCK_API_INTERCEPTORS])),
+    provideStore({ [AUTH_FEATURE_KEY]: authReducer }),
+    provideEffects(AuthEffects),
     // Las herramientas de desarrollo solo existen en desarrollo y en el modo demostración.
     ...(environment.production ? [] : [provideStoreDevtools({ maxAge: 25, connectInZone: true })]),
     // `config.json` se lee antes de arrancar para fijar la URL de la API (el mock no lo descarga).
