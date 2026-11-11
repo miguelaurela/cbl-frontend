@@ -1,0 +1,45 @@
+<h1>{{ labels.limits.title }}</h1>
+
+<mat-card appearance="outlined">
+  <mat-card-content>
+    <p class="description">{{ labels.limits.description }}</p>
+    <app-state-view [loading]="loading()" [error]="loadError()" (retry)="retry()">
+      @if (banner(); as message) {
+        <p class="banner" role="alert">{{ message }}</p>
+      }
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ labels.limits.min }}</mat-label>
+          <span matTextPrefix>$&nbsp;</span>
+          <input matInput type="number" inputmode="decimal" step="0.01" formControlName="minAmount" />
+          @if (form.controls.minAmount.invalid && form.controls.minAmount.touched) {
+            <mat-error>{{ minError() }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ labels.limits.max }}</mat-label>
+          <span matTextPrefix>$&nbsp;</span>
+          <input matInput type="number" inputmode="decimal" step="0.01" formControlName="maxAmount" />
+          @if (form.controls.maxAmount.invalid && form.controls.maxAmount.touched) {
+            <mat-error>{{ maxError() }}</mat-error>
+          }
+        </mat-form-field>
+
+        <button mat-flat-button type="submit" class="submit" [disabled]="saving()">
+          @if (saving()) {
+            <mat-spinner diameter="18" aria-hidden="true" />
+            <span>{{ labels.limits.saving }}</span>
+          } @else {
+            <span>{{ labels.limits.save }}</span>
+          }
+        </button>
+      </form>
+
+      <p class="note" [class.note-saved]="saved()" role="status" data-testid="limits-note">
+        <mat-icon aria-hidden="true">info</mat-icon>
+        <span>{{ saved() ? labels.limits.saved : labels.limits.note }}</span>
+      </p>
+    </app-state-view>
+  </mat-card-content>
+</mat-card>

@@ -202,6 +202,30 @@ describe('LoansEffects', () => {
     });
   });
 
+  describe('saveLimits$', () => {
+    it('éxito: emite saveLimitsSuccess y avisa que aplica solo a solicitudes nuevas', async () => {
+      parametersApi.updateLoanLimits.and.returnValue(of({ minAmount: 500, maxAmount: 90000 }));
+      actions$.next(LoansActions.saveLimits({ limits: { minAmount: 500, maxAmount: 90000 } }));
+      const action = await firstValueFrom(effects.saveLimits$);
+      expect(action).toEqual(LoansActions.saveLimitsSuccess({ limits: { minAmount: 500, maxAmount: 90000 } }));
+      expect(parametersApi.updateLoanLimits).toHaveBeenCalledWith({ minAmount: 500, maxAmount: 90000 });
+
+      effects.saveLimitsSuccess$.subscribe();
+      actions$.next(action);
+      expect(notifications.success).toHaveBeenCalledWith(jasmine.stringMatching(/solo a las solicitudes nuevas/));
+    });
+
+    it('un 422 deja limitsError.fieldErrors en minAmount y maxAmount', async () => {
+      parametersApi.updateLoanLimits.and.returnValue(
+        throwError(() => problem(422, { errors: { minAmount: ['Mal'], maxAmount: ['Peor'] } })),
+      );
+      actions$.next(LoansActions.saveLimits({ limits: { minAmount: 0, maxAmount: 1 } }));
+      const action = (await firstValueFrom(effects.saveLimits$)) as ReturnType<typeof LoansActions.saveLimitsFailure>;
+      expect(action.error.fieldErrors['minAmount']).toEqual(['Mal']);
+      expect(action.error.fieldErrors['maxAmount']).toEqual(['Peor']);
+    });
+  });
+
   it('cambiar el filtro no genera ninguna petición', () => {
     effects.loadAll$.pipe(toArray()).subscribe();
     actions$.next(LoansActions.setFilter({ filter: 'Approved' }));

@@ -63,7 +63,12 @@ export const loansReducer = createReducer<LoansState>(
     decidingIds: state.decidingIds.filter((current) => current !== id),
   })),
 
-  on(LoansActions.loadLimits, (state): LoansState => ({ ...state, limitsStatus: 'loading', limitsError: null })),
+  on(LoansActions.loadLimits, (state): LoansState => ({
+    ...state,
+    limitsStatus: 'loading',
+    limitsSaveStatus: 'idle',
+    limitsError: null,
+  })),
   on(LoansActions.loadLimitsSuccess, (state, { limits }): LoansState => ({
     ...state,
     limits,
@@ -72,6 +77,20 @@ export const loansReducer = createReducer<LoansState>(
   on(LoansActions.loadLimitsFailure, (state, { error }): LoansState => ({
     ...state,
     limitsStatus: 'failed',
+    limitsError: error,
+  })),
+
+  on(LoansActions.saveLimits, (state): LoansState => ({ ...state, limitsSaveStatus: 'saving', limitsError: null })),
+  on(LoansActions.saveLimitsSuccess, (state, { limits }): LoansState => ({
+    ...state,
+    limits,
+    limitsStatus: 'loaded',
+    limitsSaveStatus: 'saved',
+    limitsError: null,
+  })),
+  on(LoansActions.saveLimitsFailure, (state, { error }): LoansState => ({
+    ...state,
+    limitsSaveStatus: 'failed',
     limitsError: error,
   })),
 );

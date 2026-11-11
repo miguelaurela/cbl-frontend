@@ -37,3 +37,4 @@ export const selectSubmitError = createSelector(selectLoansState, (state) => sta
 export const selectLimits = createSelector(selectLoansState, (state) => state.limits);
 export const selectLimitsStatus = createSelector(selectLoansState, (state) => state.limitsStatus);
 export const selectLimitsError = createSelector(selectLoansState, (state) => state.limitsError);
+export const selectLimitsSaveStatus = createSelector(selectLoansState, (state) => state.limitsSaveStatus);

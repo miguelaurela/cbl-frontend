@@ -61,7 +61,10 @@ describe('AppComponent', () => {
   it('el administrador ve su rol y "Solicitudes"', () => {
     const element = create(session('Admin'));
     expect(element.textContent).toContain('Administrador');
-    expect(element.querySelector('nav')?.textContent).toContain('Solicitudes');
+    const nav = element.querySelector('nav')?.textContent ?? '';
+    expect(nav).toContain('Solicitudes');
+    expect(nav).toContain('Usuarios');
+    expect(nav).toContain('Límites');
   });
 
   it('"Cerrar sesión" despacha logout', () => {

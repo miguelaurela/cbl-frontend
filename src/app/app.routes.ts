@@ -10,8 +10,9 @@ import { isSessionActive, selectAuthState } from './store/auth/auth.selectors';
 import { LoansEffects } from './store/loans/loans.effects';
 import { loansReducer } from './store/loans/loans.reducer';
 import { LOANS_FEATURE_KEY } from './store/loans/loans.state';
-
-const placeholder = () => import('./core/placeholder.page').then((m) => m.PlaceholderPage);
+import { UsersEffects } from './store/users/users.effects';
+import { usersReducer } from './store/users/users.reducer';
+import { USERS_FEATURE_KEY } from './store/users/users.state';
 
 /** Cualquier ruta desconocida lleva a la vista propia (con sesión) o al acceso (sin sesión). */
 const fallbackRedirect = () => {
@@ -46,8 +47,16 @@ export const routes: Routes = [
             loadComponent: () =>
               import('./features/admin/admin-loans/admin-loans.page').then((m) => m.AdminLoansPage),
           },
-          { path: 'users', loadComponent: placeholder },
-          { path: 'limits', loadComponent: placeholder },
+          {
+            // El estado de usuarios se registra una sola vez, al entrar a su pantalla.
+            path: 'users',
+            providers: [provideState(USERS_FEATURE_KEY, usersReducer), provideEffects(UsersEffects)],
+            loadComponent: () => import('./features/admin/users/users.page').then((m) => m.UsersPage),
+          },
+          {
+            path: 'limits',
+            loadComponent: () => import('./features/admin/limits/limits.page').then((m) => m.LimitsPage),
+          },
           { path: '', pathMatch: 'full', redirectTo: 'loans' },
         ],
       },

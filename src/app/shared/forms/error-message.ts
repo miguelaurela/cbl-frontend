@@ -7,7 +7,9 @@ export function errorMessage(control: AbstractControl | null, overrides: Record<
   if (!errors) {
     return '';
   }
-  const [key, value] = Object.entries(errors)[0] ?? [];
+  // El error del servidor (por ejemplo, correo duplicado) tiene prioridad sobre los del cliente.
+  const entries = Object.entries(errors);
+  const [key, value] = entries.find(([name]) => name === 'server') ?? entries[0] ?? [];
   if (key === undefined) {
     return '';
   }
