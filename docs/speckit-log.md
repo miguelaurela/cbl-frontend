@@ -48,9 +48,13 @@ Entrega
 - What I changed by hand and why | Qué cambié a mano y por qué: nada aparte de lo anterior; aprobada por el usuario tal como se generó. / Nothing beyond the above; approved by the user as generated.
 
 ## Phase 2 – /speckit.specify | Fase 2
-- Date | Fecha:
+- Agent | Agente: Claude Code (`/speckit-specify`). Rama `001-web-ui` creada a mano (no hay extensión de git instalada).
+- Date | Fecha: 2026-11-11
 - Prompt used | Prompt usado: reuse the backend prompt (`docs/speckit-log.md` in `cbl-backend`) limited to user stories 1–5 and 7 plus the users-management admin screen, keeping the "Interface" section (Interfaz) and the roles Prestamista (Borrower) / Administrador (Admin), without persistence rules. | Reutilizar el del backend (`docs/speckit-log.md` de `cbl-backend`) limitado a las historias de usuario 1–5 y 7 más la pantalla de gestión de usuarios del administrador, con la sección "Interfaz" y los roles Prestamista (Borrower) / Administrador (Admin), sin reglas de persistencia.
-- What I changed by hand and why | Qué cambié a mano y por qué:
+- What it generated | Qué generó: `specs/001-web-ui/spec.md` (9 historias de usuario: 7 P1 y 2 P2; 30 requisitos funcionales; 12 criterios de éxito; casos límite, supuestos y fuera de alcance; 0 marcadores de aclaración), `specs/001-web-ui/checklists/requirements.md` (validado, 1 iteración) y `.specify/feature.json`. Historias: 1 iniciar sesión, 2 mantener y cerrar la sesión, 3 solicitar un préstamo, 4 mis préstamos, 5 lista del admin con filtro, 6 aprobar o rechazar, 7 modo demostración sin backend (P1); 8 gestión de usuarios y 9 límites de monto (P2).
+- Adjustments for the already-built backend | Ajustes por el backend ya construido: logout que llega al servidor, bloqueo de login (423) con tiempo de espera y límite de solicitudes (429), 401 del login como error del formulario, errores `ProblemDetails` por campo, protección de la propia cuenta del admin (no desactivarse ni cambiarse el rol) y un modo demostración que reproduce todo eso.
+- Unconfirmed assumptions to settle in Phase 3 | Supuestos sin confirmar para la Fase 3: confirmación breve antes de aprobar o rechazar; código de referencia (`traceId`) en los errores genéricos; volver a la pantalla pedida tras expirar la sesión; la interfaz no ofrece editar ni eliminar préstamos propios; la pantalla de límites entra en el alcance (historia 9).
+- What I changed by hand and why | Qué cambié a mano y por qué: nada; aprobada por el usuario tal como se generó. / Nothing; approved by the user as generated.
 
 ## Phase 3 – /speckit.clarify | Fase 3
 - Date | Fecha:
