@@ -84,5 +84,15 @@ Entrega
 - What it generated | Qué generó: `specs/001-web-ui/tasks.md` con 96 tareas (42 `[P]`): Preparación 8, Fundamentos 14, US1 9, US2 12, US3 8, US4 5, US5 7, US6 5, US7 4, US8 8, US9 7, Pulido 9. Incluye tareas de prueba (la constitución las exige), rutas exactas y las rutas del mock dentro de cada historia. Validado con un script: formato, IDs secuenciales, etiquetas por historia, dependencias sin referencias hacia adelante y una ruta en cada tarea.
 - MVP cut | Corte de MVP: historias 1 a 7 más T088 (`ci.yml`), T090 (endurecimiento) y T092 (README); después US8 y US9. Recorte si falta tiempo: T093 (ADR) → T089 (`release.yml`) → US9 → US8.
 - What I changed by hand and why | Qué cambié a mano y por qué: nada; aprobado por el usuario tal como se generó. Antes de la aprobación el agente añadió la cabecera de requisitos transversales (FR-024 a FR-027) a la fase de Fundamentos. / Nothing; approved by the user as generated, after the agent added the cross-cutting requirements header (FR-024 to FR-027) to the Foundations phase.
+
 ## Phase 6 – /speckit.analyze | Fase 6
+- Agent | Agente: Claude Code (`/speckit-analyze`, solo lectura). Rama `001-web-ui`.
+- Date | Fecha: 2026-11-11
+- Result (pasted) | Resultado (pegado): 0 críticos, 1 alto, 4 medios, 4 bajos. Cobertura: 30/30 FR, 12/13 SC (faltaba SC-001), 9/9 historias, 65 de 96 tareas con etiqueta `[USn]`; los 7 principios de la constitución se cumplen. / 0 critical, 1 high, 4 medium, 4 low; coverage 30/30 FR, 12/13 SC, 9/9 stories; constitution passes.
+  - A1 (alta): `selectPendingCount` no estaba definido y el filtro se enviaba como `status`, por lo que el contador daba 0 con el filtro "Aprobado". / The pending counter was undefined and the filter was sent as `status`.
+  - A2 (media): T001 no fijaba el CLI de Angular 19.2. A3 (media): T020 registraba interceptores que se crean en T039. A4 (media): la recarga de límites (FR-023) estaba en T087 (US9, recortable). A5 (media): T091 solo revisaba las pantallas del MVP.
+  - A6 a A9 (bajas): trazabilidad de SC-001 y SC-010; «atrás» tras cerrar sesión y cookies en T036; datos semilla del mock duplicados y marcador `__CBL_MOCK_API__`; caducidad con un formulario abierto.
+- Corrections applied (all 9, approved by the user) | Correcciones aplicadas (las 9, aprobadas por el usuario): el filtro pasa a ser solo del cliente sobre la lista completa (T057 a T060, `data-model.md`, quickstart 11); T001 con `@angular/cli@19.2`; T020 solo registra el mock; `loadLimits` al abrir la vista en T044, T046 y T050 (fuera de T087); T091 para todas las pantallas construidas; SC-001 en el quickstart 6 y SC-010 en T095; «atrás», `replaceUrl` y cookies en T032, T034, T036 y quickstart 15; T019, T071 y T072 sin duplicar la semilla ni el marcador; caso límite de `spec.md` aclarado.
+- What I changed by hand and why | Qué cambié a mano y por qué: nada fuera de las correcciones del informe. / Nothing beyond the report's corrections.
+
 ## Phase 7 – /speckit.implement | Fase 7
