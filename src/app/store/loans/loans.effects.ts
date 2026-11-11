@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, map, of, switchMap, tap } from 'rxjs';
+import { catchError, EMPTY, exhaustMap, groupBy, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { LoansApi } from '../../core/api/loans.api';
 import { ParametersApi } from '../../core/api/parameters.api';
 import { toAppError } from '../../core/errors/to-app-error';
@@ -47,6 +47,47 @@ export class LoansEffects {
       ofType(LoansActions.createSuccess),
       tap(() => this.notifications.success(LABELS.loanForm.success)),
       map(() => LoansActions.loadMine()),
+    ),
+  );
+
+  /** Una decisión a la vez por solicitud: las repetidas mientras hay una en curso se ignoran. */
+  readonly decide$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LoansActions.decide),
+      groupBy(({ id }) => id),
+      mergeMap((group$) =>
+        group$.pipe(
+          exhaustMap(({ id, decision, version }) => {
+            const call = decision === 'approve' ? this.loansApi.approve(id, version) : this.loansApi.reject(id, version);
+            return call.pipe(
+              map((loan) => LoansActions.decideSuccess({ loan, decision })),
+              catchError((error: unknown) => of(LoansActions.decideFailure({ id, error: toAppError(error) }))),
+            );
+          }),
+        ),
+      ),
+    ),
+  );
+
+  /** Tras decidir: aviso y recarga de la lista desde el servidor con el filtro actual. */
+  readonly decideSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LoansActions.decideSuccess),
+      tap(({ decision }) =>
+        this.notifications.success(decision === 'approve' ? LABELS.adminLoans.approved : LABELS.adminLoans.rejected),
+      ),
+      map(() => LoansActions.loadAll()),
+    ),
+  );
+
+  /** Conflicto (409): otra persona decidió antes; se explica y se refresca. Otros errores: aviso y todo queda como estaba. */
+  readonly decideFailure$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LoansActions.decideFailure),
+      tap(({ error }) =>
+        this.notifications.error(error.kind === 'conflict' ? LABELS.adminLoans.conflict : LABELS.adminLoans.decideError),
+      ),
+      mergeMap(({ error }) => (error.kind === 'conflict' ? of(LoansActions.loadAll()) : EMPTY)),
     ),
   );
 

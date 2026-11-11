@@ -12,7 +12,10 @@
     "build:mock": "ng build --configuration mock --output-path dist/cbl-web-mock",
     "contract:generate": "openapi-typescript specs/001-web-ui/contracts/openapi.yaml -o src/app/core/api/openapi.generated.ts",
     "contract:check": "npm run contract:generate && git diff --exit-code -- src/app/core/api/openapi.generated.ts",
-    "contract:sync": "node scripts/check-contract-sync.mjs"
+    "contract:sync": "node scripts/check-contract-sync.mjs",
+    "contract:check-mock": "node scripts/check-mock-routes.mjs",
+    "check:prod": "ng build && node scripts/check-no-mock-in-prod.mjs",
+    "check:hardening": "node scripts/check-hardening.mjs"
   },
   "private": true,
   "dependencies": {

@@ -200,14 +200,14 @@ Una sola aplicación Angular en la raíz del repositorio, según el plan: `src/a
 
 ### Pruebas de la historia 6 ⚠️
 
-- [ ] T064 [P] [US6] Pruebas de `decide$` en `src/app/store/loans/loans.effects.spec.ts` y de `decidingIds` en `loans.reducer.spec.ts`: éxito recarga la lista con el filtro actual; 409 avisa "ya fue decidida por otra persona" y recarga; otros errores avisan y la solicitud queda como estaba; se envía `{ version }`; `selectIsDeciding(id)`
-- [ ] T065 [P] [US6] Pruebas de las acciones en `src/app/features/admin/admin-loans/admin-loans.decisions.spec.ts`: Aprobar y Rechazar solo en filas Pendientes; el diálogo de confirmación muestra prestamista, monto y plazo; al cancelar no se envía nada; varias pulsaciones seguidas envían una sola decisión; las filas decididas no ofrecen acciones
+- [x] T064 [P] [US6] Pruebas de `decide$` en `src/app/store/loans/loans.effects.spec.ts` y de `decidingIds` en `loans.reducer.spec.ts`: éxito recarga la lista con el filtro actual; 409 avisa "ya fue decidida por otra persona" y recarga; otros errores avisan y la solicitud queda como estaba; se envía `{ version }`; `selectIsDeciding(id)`
+- [x] T065 [P] [US6] Pruebas de las acciones en `src/app/features/admin/admin-loans/admin-loans.decisions.spec.ts`: Aprobar y Rechazar solo en filas Pendientes; el diálogo de confirmación muestra prestamista, monto y plazo; al cancelar no se envía nada; varias pulsaciones seguidas envían una sola decisión; las filas decididas no ofrecen acciones
 
 ### Implementación de la historia 6
 
-- [ ] T066 [US6] Añadir `decide$` a `src/app/store/loans/loans.effects.ts`, `decide` y `decidingIds` a `loans.actions.ts` y `loans.reducer.ts` y `selectIsDeciding` a `loans.selectors.ts` (dep: T061, T064)
-- [ ] T067 [US6] Añadir a `admin-loans.page.html|ts` los botones Aprobar y Rechazar solo en filas Pendientes, el `ConfirmDialog` con prestamista, monto y plazo, el indicador por fila y los botones deshabilitados mientras la decisión está en curso (dep: T062, T066, T065)
-- [ ] T068 [US6] Añadir al mock `POST /api/loans/{id}/approve` y `/reject` en `src/app/core/mock/mock-routes-loans.ts` (solo Admin; cuerpo opcional con `version`; 409 si el préstamo ya está decidido o la versión no coincide; 404 si no existe; registra quién y cuándo y sube la versión) (dep: T063)
+- [x] T066 [US6] Añadir `decide$` a `src/app/store/loans/loans.effects.ts`, `decide` y `decidingIds` a `loans.actions.ts` y `loans.reducer.ts` y `selectIsDeciding` a `loans.selectors.ts` (dep: T061, T064)
+- [x] T067 [US6] Añadir a `admin-loans.page.html|ts` los botones Aprobar y Rechazar solo en filas Pendientes, el `ConfirmDialog` con prestamista, monto y plazo, el indicador por fila y los botones deshabilitados mientras la decisión está en curso (dep: T062, T066, T065)
+- [x] T068 [US6] Añadir al mock `POST /api/loans/{id}/approve` y `/reject` en `src/app/core/mock/mock-routes-loans.ts` (solo Admin; cuerpo opcional con `version`; 409 si el préstamo ya está decidido o la versión no coincide; 404 si no existe; registra quién y cuándo y sube la versión) (dep: T063)
 
 **Punto de control — CORTE DE MVP (parte funcional)**: con las historias 1 a 6 y el modo demostración (US7) está el flujo central completo: login → solicitar → mis préstamos → lista del administrador → decidir.
 
@@ -221,13 +221,13 @@ Una sola aplicación Angular en la raíz del repositorio, según el plan: `src/a
 
 ### Pruebas de la historia 7 ⚠️
 
-- [ ] T069 [P] [US7] Pruebas de las reglas del mock en `src/app/core/mock/mock-rules.spec.ts`: 403 por rol en rutas ajenas, 409 en la segunda decisión y con versión desactualizada, 401 con token vencido (reloj simulado) y tras `logout`, validaciones y mensajes iguales a los del backend, un prestamista solo ve sus préstamos
+- [x] T069 [P] [US7] Pruebas de las reglas del mock en `src/app/core/mock/mock-rules.spec.ts`: 403 por rol en rutas ajenas, 409 en la segunda decisión y con versión desactualizada, 401 con token vencido (reloj simulado) y tras `logout`, validaciones y mensajes iguales a los del backend, un prestamista solo ve sus préstamos
 
 ### Implementación de la historia 7
 
-- [ ] T070 [P] [US7] Crear `scripts/check-mock-routes.mjs` y el script `contract:check-mock` de `package.json`: extrae las rutas `route('METHOD', '/api/...')` de `src/app/core/mock/mock-routes-*.ts` y falla si alguna operación de `specs/001-web-ui/contracts/openapi.yaml` que usa la interfaz no está cubierta (dep: T019)
-- [ ] T071 [US7] Crear el aviso `src/app/shared/components/demo-banner/demo-banner.component.ts` ("Modo demostración: datos de ejemplo que se pierden al recargar"), mostrarlo en `src/app/app.component.html` solo cuando `environment.useMockApi` y verificar que los datos semilla de `src/app/core/mock/mock-db.ts` cubren los tres estados y varios prestamistas, y la entrada mágica `fail500@test.com` (dep: T021, T063)
-- [ ] T072 [US7] Crear `scripts/check-no-mock-in-prod.mjs` y el script `check:prod` de `package.json`: compila `production` y falla si `dist/` contiene cadenas exclusivas del mock (por ejemplo `fail500@test.com` o el marcador `__CBL_MOCK_API__` de `mock-api.interceptor.ts`) (dep: T019, T071)
+- [x] T070 [P] [US7] Crear `scripts/check-mock-routes.mjs` y el script `contract:check-mock` de `package.json`: extrae las rutas `route('METHOD', '/api/...')` de `src/app/core/mock/mock-routes-*.ts` y falla si alguna operación de `specs/001-web-ui/contracts/openapi.yaml` que usa la interfaz no está cubierta (dep: T019)
+- [x] T071 [US7] Crear el aviso `src/app/shared/components/demo-banner/demo-banner.component.ts` ("Modo demostración: datos de ejemplo que se pierden al recargar"), mostrarlo en `src/app/app.component.html` solo cuando `environment.useMockApi` y verificar que los datos semilla de `src/app/core/mock/mock-db.ts` cubren los tres estados y varios prestamistas, y la entrada mágica `fail500@test.com` (dep: T021, T063)
+- [x] T072 [US7] Crear `scripts/check-no-mock-in-prod.mjs` y el script `check:prod` de `package.json`: compila `production` y falla si `dist/` contiene cadenas exclusivas del mock (por ejemplo `fail500@test.com` o el marcador `__CBL_MOCK_API__` de `mock-api.interceptor.ts`) (dep: T019, T071)
 
 **Punto de control — CORTE DE MVP**: las historias 1 a 7 funcionan; todo se puede demostrar sin backend.
 
@@ -284,11 +284,11 @@ Una sola aplicación Angular en la raíz del repositorio, según el plan: `src/a
 
 **Propósito**: CI, entrega, endurecimiento, accesibilidad, documentación y validación final.
 
-- [ ] T088 Crear `.github/workflows/ci.yml`: en `push` y `pull_request`, Node 22 y `npm ci`; `npm run lint`; `npm test`; `npm run build`; `npm run build:mock`; `npm run contract:check`; `npm run contract:check-mock`; `npm run check:prod`; `npm run contract:sync` (no bloqueante); subir `dist/` como artefacto (dep: T006, T007, T009, T070, T072)
+- [x] T088 Crear `.github/workflows/ci.yml`: en `push` y `pull_request`, Node 22 y `npm ci`; `npm run lint`; `npm test`; `npm run build`; `npm run build:mock`; `npm run contract:check`; `npm run contract:check-mock`; `npm run check:prod`; `npm run contract:sync` (no bloqueante); subir `dist/` como artefacto (dep: T006, T007, T009, T070, T072)
 - [ ] T089 Crear `.github/workflows/release.yml`: un tag `v*.*.*` reconstruye, ejecuta las pruebas y crea un GitHub Release con el zip del build de producción (`cbl-web-<tag>.zip`) y `SHA256SUMS.txt`, solo con `GITHUB_TOKEN` y sin despliegue en ningún entorno (dep: T088)
-- [ ] T090 Crear `scripts/check-hardening.mjs` y el script `check:hardening` de `package.json` (falla si `src/` contiene `localStorage`, `sessionStorage`, `innerHTML` o `bypassSecurityTrust`) y añadirlo como paso de `.github/workflows/ci.yml` (dep: T088)
+- [x] T090 Crear `scripts/check-hardening.mjs` y el script `check:hardening` de `package.json` (falla si `src/` contiene `localStorage`, `sessionStorage`, `innerHTML` o `bypassSecurityTrust`) y añadirlo como paso de `.github/workflows/ci.yml` (dep: T088)
 - [ ] T091 [P] Revisión de accesibilidad y diseño adaptable con el navegador integrado a 360, 768 y 1280 px en todas las pantallas construidas (etiquetas en cada campo, foco visible, avisos con `aria-live`, diálogos con teclado, estados no solo por color, sin desplazamiento horizontal) y corregir lo que se encuentre en `src/app/**` (dep: T067, T072 y, si se construyen, T079 y T086)
-- [ ] T092 [P] Actualizar `README.md` y `README.es.md` (ejecutar con el mock y contra la API real, `config.json`, scripts, pruebas, estructura, comportamiento de la sesión: token en memoria, 10 minutos, recargar pierde la sesión, estado de las fases de Spec Kit) (dep: T072)
+- [x] T092 [P] Actualizar `README.md` y `README.es.md` (ejecutar con el mock y contra la API real, `config.json`, scripts, pruebas, estructura, comportamiento de la sesión: token en memoria, 10 minutos, recargar pierde la sesión, estado de las fases de Spec Kit) (dep: T072)
 - [ ] T093 [P] Crear los ADR bilingües `docs/decisions/0027-mock-by-file-replacement.md`, `0028-session-logout-and-return-url.md`, `0029-types-generated-from-openapi.md` y `0030-runtime-config.md` y añadir sus filas a `docs/decisions/README.md` (dep: T072)
 - [ ] T094 Revisión de seguridad: ningún secreto ni clave en el repositorio ni en el historial, `.gitignore` correcto, `npm audit --omit=dev` sin vulnerabilidades altas o críticas, `git diff --cached` revisado en los archivos generados (dep: T090)
 - [ ] T095 Validar el `specs/001-web-ui/quickstart.md` (escenarios 1 a 23) en modo demostración con el navegador integrado y registrar los resultados en `specs/001-web-ui/quickstart-results.md`, confirmando SC-001 (menos de 1 minuto) y SC-010 (historias P1 sin backend) (dep: T086, T091)

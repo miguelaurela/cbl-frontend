@@ -57,6 +57,17 @@ describe('loansReducer', () => {
     expect(state.loadError.mine).toEqual(error);
   });
 
+  it('decidingIds marca la decisión en curso y la libera al terminar o fallar', () => {
+    let state = loansReducer(initialLoansState, LoansActions.decide({ id: 'a', decision: 'approve', version: 0 }));
+    state = loansReducer(state, LoansActions.decide({ id: 'a', decision: 'approve', version: 0 }));
+    state = loansReducer(state, LoansActions.decide({ id: 'b', decision: 'reject', version: 0 }));
+    expect(state.decidingIds).toEqual(['a', 'b']);
+    state = loansReducer(state, LoansActions.decideSuccess({ loan: loanFixture({ id: 'a' }), decision: 'approve' }));
+    expect(state.decidingIds).toEqual(['b']);
+    state = loansReducer(state, LoansActions.decideFailure({ id: 'b', error }));
+    expect(state.decidingIds).toEqual([]);
+  });
+
   it('al cerrar o caducar la sesión se vacía el estado de préstamos', () => {
     const filled = loansReducer(initialLoansState, LoansActions.loadMineSuccess({ loans: [loanFixture()] }));
     expect(loansReducer(filled, AuthActions.logoutDone())).toEqual(initialLoansState);

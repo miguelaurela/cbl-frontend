@@ -1,0 +1,73 @@
+name: CI
+
+# Lint, pruebas unitarias (Karma + Jasmine en Chrome headless), builds de producción y de demostración (mock),
+# comprobaciones del contrato (tipos generados y cobertura del mock), endurecimiento y exclusión del mock en producción.
+# No despliega nada: solo valida y publica el build como artefacto.
+
+on:
+  push:
+    branches: ["**"]
+    tags-ignore: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Instalar Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Pruebas unitarias
+        run: npm test
+
+      - name: Build de producción
+        run: npm run build
+
+      - name: Build de demostración (mock)
+        run: npm run build:mock
+
+      - name: Tipos generados al día respecto al contrato
+        run: npm run contract:check
+
+      - name: El mock cubre las operaciones del contrato
+        run: npm run contract:check-mock
+
+      - name: Endurecimiento (sin almacenamiento del navegador ni HTML sin sanear)
+        run: npm run check:hardening
+
+      - name: El build de producción no contiene código del mock
+        run: npm run check:prod
+
+      - name: Aviso si el contrato difiere del backend (no bloquea)
+        run: npm run contract:sync
+        continue-on-error: true
+
+      - name: Publicar el build de producción como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: cbl-web-dist
+          path: dist/cbl-web
+          if-no-files-found: error
+          retention-days: 14

@@ -73,6 +73,25 @@ export const LABELS = {
     decidedBy: 'Decidido por',
     empty: 'No hay solicitudes con este filtro',
     loadError: 'No se pudieron cargar las solicitudes.',
+    actions: 'Acciones',
+    approve: 'Aprobar',
+    reject: 'Rechazar',
+    deciding: 'Procesando…',
+    confirmApproveTitle: '¿Aprobar esta solicitud?',
+    confirmRejectTitle: '¿Rechazar esta solicitud?',
+    confirmLines: (name: string, amount: string, months: string) => [
+      `Prestamista: ${name}`,
+      `Monto: ${amount}`,
+      `Plazo: ${months}`,
+    ],
+    approved: 'Solicitud aprobada.',
+    rejected: 'Solicitud rechazada.',
+    conflict: 'Esta solicitud ya fue decidida por otra persona. Se actualizó la lista.',
+    decideError: 'No se pudo registrar la decisión. La solicitud sigue como estaba.',
+  },
+
+  demo: {
+    banner: 'Modo demostración: datos de ejemplo que se pierden al recargar.',
   },
 
   nav: {

@@ -27,6 +27,10 @@ export const selectPendingCount = createSelector(
   (state) => state.all.filter((loan) => loan.status === 'Pending').length,
 );
 
+export const selectDecidingIds = createSelector(selectLoansState, (state) => state.decidingIds);
+export const selectIsDeciding = (id: string) =>
+  createSelector(selectDecidingIds, (ids) => ids.includes(id));
+
 export const selectSubmitStatus = createSelector(selectLoansState, (state) => state.submitStatus);
 export const selectSubmitError = createSelector(selectLoansState, (state) => state.submitError);
 
