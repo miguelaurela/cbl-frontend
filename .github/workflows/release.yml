@@ -1,0 +1,52 @@
+name: Release
+
+# CD = SOLO publicar artefactos. Un tag v*.*.* reconstruye, ejecuta las pruebas y crea un GitHub Release con el zip del
+# build de producción y SHA256SUMS.txt. Solo usa GITHUB_TOKEN; no hay despliegue en ningún entorno. Para publicarlo en un
+# servidor estático basta descomprimirlo y editar config.json con la URL de la API.
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Instalar Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Pruebas unitarias
+        run: npm test
+
+      - name: Build de producción sin código del mock
+        run: npm run check:prod
+
+      - name: Empaquetar los artefactos
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          mkdir -p artifacts
+          (cd dist/cbl-web/browser && zip -r -q "../../../artifacts/cbl-web-${TAG}.zip" .)
+          (cd artifacts && sha256sum * > SHA256SUMS.txt)
+          cat artifacts/SHA256SUMS.txt
+
+      - name: Crear el GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" artifacts/* \
+            --title "CBL Web ${GITHUB_REF_NAME}" \
+            --generate-notes

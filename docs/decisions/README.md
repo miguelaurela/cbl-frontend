@@ -11,6 +11,10 @@ Cada ADR es un único archivo bilingüe: sección en inglés y luego `## Españo
 | [0013](0013-token-in-memory.md) | Token only in memory (10-minute expiry) | Token solo en memoria (expira a los 10 minutos) |
 | [0020](0020-guards-interceptors-forms.md) | Guards, interceptors and Reactive Forms | Guards, interceptores y Reactive Forms |
 | [0025](0025-frontend-ui-defaults.md) | Frontend UI defaults | Valores por defecto de la UI |
+| [0027](0027-mock-by-file-replacement.md) | Mock excluded from production by file replacement | Mock excluido de producción por sustitución de archivos |
+| [0028](0028-session-logout-and-return-url.md) | Session timer, server-side logout and validated returnUrl | Temporizador de sesión, cierre en el servidor y returnUrl validado |
+| [0029](0029-types-generated-from-openapi.md) | API types generated from the backend OpenAPI | Tipos de la API generados desde el OpenAPI del backend |
+| [0030](0030-runtime-config.md) | API URL read at run time from config.json | URL de la API leída en tiempo de ejecución desde config.json |
 
 ## Backend ADRs (in `cbl-backend`, `docs/decisions/`) | ADR del backend
 

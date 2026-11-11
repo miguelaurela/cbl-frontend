@@ -104,6 +104,27 @@ describe('LoginPage', () => {
     expect(el().querySelector('[role="alert"]')?.textContent).toContain('45 s');
   });
 
+  it('un error inesperado muestra un mensaje genérico con el código de referencia', () => {
+    api.login.and.returnValue(
+      throwError(() => new HttpErrorResponse({ status: 500, error: { title: 'Interno', status: 500, detail: 'Detalle interno', traceId: 'abc-123' } })),
+    );
+    create();
+    fill('usuario@test.com', 'x');
+    submit();
+    const text = el().querySelector('[role="alert"]')?.textContent ?? '';
+    expect(text).toContain('Código de referencia: abc-123');
+    expect(text).not.toContain('Detalle interno');
+  });
+
+  it('un 401 no muestra el código de referencia (solo los errores inesperados lo hacen)', () => {
+    api.login.and.returnValue(
+      throwError(() => new HttpErrorResponse({ status: 401, error: { title: 'No autenticado', status: 401, traceId: 'zzz-999' } })),
+    );
+    create();
+    fill('usuario@test.com', 'x');
+    submit();
+    expect(el().querySelector('[role="alert"]')?.textContent).not.toContain('zzz-999');
+  });
   it('un 422 del servidor aparece junto al campo', () => {
     const error = new HttpErrorResponse({
       status: 422,
