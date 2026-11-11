@@ -60,7 +60,7 @@ Este proyecto se desarrolla con [GitHub Spec Kit](https://github.com/github/spec
 | 4 | /speckit.plan | plan.md, contracts/ | Hecho |
 | 5 | /speckit.tasks | tasks.md | Hecho |
 | 6 | /speckit.analyze | docs/speckit-log.md | Hecho |
-| 7 | /speckit.implement | código | En curso: historias 1 a 9 hechas; pendientes el flujo de release, la revisión de accesibilidad, los ADR y la validación final |
+| 7 | /speckit.implement | código | Hecho: 96/96 tareas; CI en verde; validado contra el mock y contra el backend real ([resultados del quickstart](specs/001-web-ui/quickstart-results.md), [revisión de seguridad](specs/001-web-ui/security-review.md)) |
 
 ## Documentación
 - Prompts de Spec Kit por fase: [docs/speckit-log.md](docs/speckit-log.md)

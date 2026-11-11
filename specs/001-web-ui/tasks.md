@@ -292,7 +292,7 @@ Una sola aplicación Angular en la raíz del repositorio, según el plan: `src/a
 - [x] T093 [P] Crear los ADR bilingües `docs/decisions/0027-mock-by-file-replacement.md`, `0028-session-logout-and-return-url.md`, `0029-types-generated-from-openapi.md` y `0030-runtime-config.md` y añadir sus filas a `docs/decisions/README.md` (dep: T072)
 - [x] T094 Revisión de seguridad: ningún secreto ni clave en el repositorio ni en el historial, `.gitignore` correcto, `npm audit --omit=dev` sin vulnerabilidades altas o críticas, `git diff --cached` revisado en los archivos generados (dep: T090)
 - [x] T095 Validar el `specs/001-web-ui/quickstart.md` (escenarios 1 a 23) en modo demostración con el navegador integrado y registrar los resultados en `specs/001-web-ui/quickstart-results.md`, confirmando SC-001 (menos de 1 minuto) y SC-010 (historias P1 sin backend) (dep: T086, T091)
-- [ ] T096 Verificación final: `npm run lint`, `npm test`, `npm run build`, `npm run build:mock`, `npm run contract:check`, `npm run contract:check-mock`, `npm run check:prod` y `npm run check:hardening` en verde, primer CI en verde en GitHub Actions, y actualizar `docs/speckit-log.md` y el estado de los README (dep: T089, T094, T095)
+- [x] T096 Verificación final: `npm run lint`, `npm test`, `npm run build`, `npm run build:mock`, `npm run contract:check`, `npm run contract:check-mock`, `npm run check:prod` y `npm run check:hardening` en verde, primer CI en verde en GitHub Actions, y actualizar `docs/speckit-log.md` y el estado de los README (dep: T089, T094, T095)
 
 ---
 
