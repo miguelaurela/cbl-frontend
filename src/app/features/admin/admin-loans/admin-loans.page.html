@@ -1,0 +1,91 @@
+<h1>{{ labels.adminLoans.title }}</h1>
+
+<div class="toolbar">
+  <mat-button-toggle-group
+    [value]="filter()"
+    (change)="setFilter($event.value)"
+    [attr.aria-label]="labels.adminLoans.filterLabel"
+    hideSingleSelectionIndicator
+  >
+    @for (option of filterOptions; track option.value) {
+      <mat-button-toggle [value]="option.value">{{ option.label }}</mat-button-toggle>
+    }
+  </mat-button-toggle-group>
+
+  <span class="pending" role="status" data-testid="pending-count">{{ pendingLabel() }}</span>
+
+  <button mat-stroked-button type="button" class="refresh" (click)="refresh()" [disabled]="refreshing()">
+    <mat-icon aria-hidden="true">refresh</mat-icon>
+    {{ labels.common.refresh }}
+  </button>
+</div>
+
+<app-state-view
+  [loading]="loading()"
+  [error]="errorMessage()"
+  [empty]="empty()"
+  [emptyMessage]="labels.adminLoans.empty"
+  (retry)="refresh()"
+>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">{{ labels.adminLoans.borrower }}</th>
+        <th scope="col">{{ labels.myLoans.amount }}</th>
+        <th scope="col">{{ labels.myLoans.term }}</th>
+        <th scope="col">{{ labels.myLoans.status }}</th>
+        <th scope="col">{{ labels.myLoans.requested }}</th>
+        <th scope="col">{{ labels.adminLoans.decidedBy }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (loan of loans(); track loan.id) {
+        <tr>
+          <td>
+            <span class="name">{{ loan.borrowerName }}</span>
+            <span class="email">{{ loan.borrowerEmail }}</span>
+          </td>
+          <td>{{ loan.amount | currency: currencyCode : 'symbol' : '1.2-2' : locale }}</td>
+          <td>{{ labels.myLoans.months(loan.termMonths) }}</td>
+          <td><app-status-chip [status]="loan.status" /></td>
+          <td>{{ loan.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>
+            @if (loan.decidedAt) {
+              <span class="name">{{ loan.decidedByName }}</span>
+              <span class="email">{{ loan.decidedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+            } @else {
+              {{ labels.myLoans.notDecided }}
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <ul class="cards">
+    @for (loan of loans(); track loan.id) {
+      <li class="card">
+        <div class="card-head">
+          <strong>{{ loan.amount | currency: currencyCode : 'symbol' : '1.2-2' : locale }}</strong>
+          <app-status-chip [status]="loan.status" />
+        </div>
+        <p class="name">{{ loan.borrowerName }}</p>
+        <p class="email">{{ loan.borrowerEmail }}</p>
+        <dl>
+          <dt>{{ labels.myLoans.term }}</dt>
+          <dd>{{ labels.myLoans.months(loan.termMonths) }}</dd>
+          <dt>{{ labels.myLoans.requested }}</dt>
+          <dd>{{ loan.createdAt | date: 'dd/MM/yyyy HH:mm' }}</dd>
+          <dt>{{ labels.adminLoans.decidedBy }}</dt>
+          <dd>
+            @if (loan.decidedAt) {
+              {{ loan.decidedByName }} · {{ loan.decidedAt | date: 'dd/MM/yyyy HH:mm' }}
+            } @else {
+              {{ labels.myLoans.notDecided }}
+            }
+          </dd>
+        </dl>
+      </li>
+    }
+  </ul>
+</app-state-view>

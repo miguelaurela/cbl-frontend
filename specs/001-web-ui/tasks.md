@@ -132,17 +132,17 @@ Una sola aplicación Angular en la raíz del repositorio, según el plan: `src/a
 
 ### Pruebas de la historia 3 ⚠️
 
-- [ ] T044 [P] [US3] Pruebas del estado y de los efectos de solicitud en `src/app/store/loans/loans.reducer.spec.ts` y `loans.effects.spec.ts`: `loadLimits` y `create` (éxito: aviso y recarga de "Mis préstamos"; 422: `submitError.fieldErrors` en el estado; error inesperado); `loadLimits` se despacha cada vez que se abre la vista
-- [ ] T045 [P] [US3] Pruebas de los validadores en `src/app/shared/validators/loan.validators.spec.ts`: monto 0, negativo, con 3 decimales, menor que el mínimo y mayor que el máximo, y los valores límite exactos; plazo 0, 61, 1,5, vacío y los límites 1 y 60; los límites se leen del estado y se revalidan cuando cambian
-- [ ] T046 [P] [US3] Pruebas del formulario de solicitud en `src/app/features/loans/loan-request-form/loan-request-form.component.spec.ts`: la ayuda muestra los límites y el plazo; error junto al campo y sin envío cuando es inválido; un solo envío aunque se pulse varias veces; el error 422 del servidor aparece junto a su campo y desaparece al editar; el formulario se limpia al terminar; al abrir la vista se piden de nuevo los límites
+- [x] T044 [P] [US3] Pruebas del estado y de los efectos de solicitud en `src/app/store/loans/loans.reducer.spec.ts` y `loans.effects.spec.ts`: `loadLimits` y `create` (éxito: aviso y recarga de "Mis préstamos"; 422: `submitError.fieldErrors` en el estado; error inesperado); `loadLimits` se despacha cada vez que se abre la vista
+- [x] T045 [P] [US3] Pruebas de los validadores en `src/app/shared/validators/loan.validators.spec.ts`: monto 0, negativo, con 3 decimales, menor que el mínimo y mayor que el máximo, y los valores límite exactos; plazo 0, 61, 1,5, vacío y los límites 1 y 60; los límites se leen del estado y se revalidan cuando cambian
+- [x] T046 [P] [US3] Pruebas del formulario de solicitud en `src/app/features/loans/loan-request-form/loan-request-form.component.spec.ts`: la ayuda muestra los límites y el plazo; error junto al campo y sin envío cuando es inválido; un solo envío aunque se pulse varias veces; el error 422 del servidor aparece junto a su campo y desaparece al editar; el formulario se limpia al terminar; al abrir la vista se piden de nuevo los límites
 
 ### Implementación de la historia 3
 
-- [ ] T047 [US3] Crear el estado de préstamos `src/app/store/loans/loans.state.ts`, `loans.actions.ts`, `loans.reducer.ts` y `loans.selectors.ts` (listas, filtro, estados de carga, `submitStatus` y `submitError`, `decidingIds` y los límites `limits`, `limitsStatus`, `limitsSaveStatus` y `limitsError`, según `data-model.md`; los límites viven en este slice) y registrarlo de forma perezosa con `provideState` en las rutas (dep: T020, T044)
-- [ ] T048 [US3] Crear `src/app/store/loans/loans.effects.ts` con `loadLimits$` y `create$` (éxito: aviso y `loadMine`; fallo: errores por campo en el estado) (dep: T015, T016, T047)
-- [ ] T049 [US3] Crear `src/app/shared/validators/loan.validators.ts` (`TERM_MIN`, `TERM_MAX`, validador de plazo y de monto contra los límites vigentes) (dep: T045)
-- [ ] T050 [US3] Crear la vista del prestamista `src/app/features/loans/loans.page.ts|html|scss` y el formulario `loan-request-form/loan-request-form.component.ts|html|scss` (monto y plazo, ayuda con los límites, aplicar `applyServerErrors`, `StateView` mientras se cargan los límites; la vista despacha `loadLimits` cada vez que se abre, FR-023), registrar la ruta `/loans` en `src/app/app.routes.ts` y añadir las etiquetas a `labels.ts` (dep: T017, T018, T048, T049, T046)
-- [ ] T051 [US3] Añadir al mock `GET /api/parameters/loan-limits` y `POST /api/loans` en `src/app/core/mock/mock-routes-loans.ts` (solo Borrower; validación 422 con los mismos mensajes que el backend: monto > 0, 2 decimales, dentro de los límites; plazo 1–60; el préstamo nace Pendiente con el prestamista del token) (dep: T043, T019)
+- [x] T047 [US3] Crear el estado de préstamos `src/app/store/loans/loans.state.ts`, `loans.actions.ts`, `loans.reducer.ts` y `loans.selectors.ts` (listas, filtro, estados de carga, `submitStatus` y `submitError`, `decidingIds` y los límites `limits`, `limitsStatus`, `limitsSaveStatus` y `limitsError`, según `data-model.md`; los límites viven en este slice) y registrarlo de forma perezosa con `provideState` en las rutas (dep: T020, T044)
+- [x] T048 [US3] Crear `src/app/store/loans/loans.effects.ts` con `loadLimits$` y `create$` (éxito: aviso y `loadMine`; fallo: errores por campo en el estado) (dep: T015, T016, T047)
+- [x] T049 [US3] Crear `src/app/shared/validators/loan.validators.ts` (`TERM_MIN`, `TERM_MAX`, validador de plazo y de monto contra los límites vigentes) (dep: T045)
+- [x] T050 [US3] Crear la vista del prestamista `src/app/features/loans/loans.page.ts|html|scss` y el formulario `loan-request-form/loan-request-form.component.ts|html|scss` (monto y plazo, ayuda con los límites, aplicar `applyServerErrors`, `StateView` mientras se cargan los límites; la vista despacha `loadLimits` cada vez que se abre, FR-023), registrar la ruta `/loans` en `src/app/app.routes.ts` y añadir las etiquetas a `labels.ts` (dep: T017, T018, T048, T049, T046)
+- [x] T051 [US3] Añadir al mock `GET /api/parameters/loan-limits` y `POST /api/loans` en `src/app/core/mock/mock-routes-loans.ts` (solo Borrower; validación 422 con los mismos mensajes que el backend: monto > 0, 2 decimales, dentro de los límites; plazo 1–60; el préstamo nace Pendiente con el prestamista del token) (dep: T043, T019)
 
 **Punto de control**: las historias 1 a 3 funcionan.
 
@@ -156,14 +156,14 @@ Una sola aplicación Angular en la raíz del repositorio, según el plan: `src/a
 
 ### Pruebas de la historia 4 ⚠️
 
-- [ ] T052 [P] [US4] Pruebas en `src/app/store/loans/loans.selectors.spec.ts` y `loans.effects.spec.ts`: `selectMyLoans` ordena del más reciente al más antiguo; `loadMine$` éxito y error
-- [ ] T053 [P] [US4] Pruebas de la lista en `src/app/features/loans/my-loans-list/my-loans-list.component.spec.ts`: carga, vacío ("Aún no tienes solicitudes"), error con "Reintentar" y datos con monto en USD, plazo, estado con icono y texto, y fechas `dd/MM/yyyy HH:mm`
+- [x] T052 [P] [US4] Pruebas en `src/app/store/loans/loans.selectors.spec.ts` y `loans.effects.spec.ts`: `selectMyLoans` ordena del más reciente al más antiguo; `loadMine$` éxito y error
+- [x] T053 [P] [US4] Pruebas de la lista en `src/app/features/loans/my-loans-list/my-loans-list.component.spec.ts`: carga, vacío ("Aún no tienes solicitudes"), error con "Reintentar" y datos con monto en USD, plazo, estado con icono y texto, y fechas `dd/MM/yyyy HH:mm`
 
 ### Implementación de la historia 4
 
-- [ ] T054 [US4] Añadir `loadMine$` a `src/app/store/loans/loans.effects.ts` y el selector `selectMyLoans` a `loans.selectors.ts` (dep: T048, T052)
-- [ ] T055 [US4] Crear `src/app/features/loans/my-loans-list/my-loans-list.component.ts|html|scss` (tabla desde 768 px y tarjetas apiladas por debajo, `CurrencyPipe` con `currencyCode` y `locale` de `environment`, `DatePipe` con `dd/MM/yyyy HH:mm`, `StatusChip`, `StateView`) y mostrarla en `loans.page.html` (dep: T017, T050, T054, T053)
-- [ ] T056 [US4] Añadir al mock `GET /api/loans/mine` en `src/app/core/mock/mock-routes-loans.ts` (solo Borrower, solo los propios, más recientes primero) y préstamos semilla del prestamista en los tres estados en `mock-db.ts` (dep: T051)
+- [x] T054 [US4] Añadir `loadMine$` a `src/app/store/loans/loans.effects.ts` y el selector `selectMyLoans` a `loans.selectors.ts` (dep: T048, T052)
+- [x] T055 [US4] Crear `src/app/features/loans/my-loans-list/my-loans-list.component.ts|html|scss` (tabla desde 768 px y tarjetas apiladas por debajo, `CurrencyPipe` con `currencyCode` y `locale` de `environment`, `DatePipe` con `dd/MM/yyyy HH:mm`, `StatusChip`, `StateView`) y mostrarla en `loans.page.html` (dep: T017, T050, T054, T053)
+- [x] T056 [US4] Añadir al mock `GET /api/loans/mine` en `src/app/core/mock/mock-routes-loans.ts` (solo Borrower, solo los propios, más recientes primero) y préstamos semilla del prestamista en los tres estados en `mock-db.ts` (dep: T051)
 
 **Punto de control**: las historias 1 a 4 funcionan.
 
@@ -177,16 +177,16 @@ Una sola aplicación Angular en la raíz del repositorio, según el plan: `src/a
 
 ### Pruebas de la historia 5 ⚠️
 
-- [ ] T057 [P] [US5] Pruebas en `src/app/store/loans/loans.reducer.spec.ts` y `loans.selectors.spec.ts`: `filter` por defecto `Pending` (solo en el cliente), `selectAllLoansFiltered` filtra la lista completa, `selectPendingCount` cuenta los Pendientes de la lista completa sea cual sea el filtro, y el orden de más reciente a más antiguo
-- [ ] T058 [P] [US5] Pruebas de `loadAll$` en `src/app/store/loans/loans.effects.spec.ts`: llama a `LoansApi.listAll()` sin `status` (lista completa); cambiar el filtro no genera una petición; éxito y error
-- [ ] T059 [P] [US5] Pruebas de la página en `src/app/features/admin/admin-loans/admin-loans.page.spec.ts`: filtro Todos, Pendiente, Aprobado y Rechazado con Pendiente por defecto y contador visible; cambiar el filtro no hace peticiones nuevas y el contador no cambia; botón "Actualizar" recarga conservando el filtro; mensaje "No hay solicitudes con este filtro"; estados de carga y error; tarjetas en pantallas estrechas
+- [x] T057 [P] [US5] Pruebas en `src/app/store/loans/loans.reducer.spec.ts` y `loans.selectors.spec.ts`: `filter` por defecto `Pending` (solo en el cliente), `selectAllLoansFiltered` filtra la lista completa, `selectPendingCount` cuenta los Pendientes de la lista completa sea cual sea el filtro, y el orden de más reciente a más antiguo
+- [x] T058 [P] [US5] Pruebas de `loadAll$` en `src/app/store/loans/loans.effects.spec.ts`: llama a `LoansApi.listAll()` sin `status` (lista completa); cambiar el filtro no genera una petición; éxito y error
+- [x] T059 [P] [US5] Pruebas de la página en `src/app/features/admin/admin-loans/admin-loans.page.spec.ts`: filtro Todos, Pendiente, Aprobado y Rechazado con Pendiente por defecto y contador visible; cambiar el filtro no hace peticiones nuevas y el contador no cambia; botón "Actualizar" recarga conservando el filtro; mensaje "No hay solicitudes con este filtro"; estados de carga y error; tarjetas en pantallas estrechas
 
 ### Implementación de la historia 5
 
-- [ ] T060 [US5] Ampliar `src/app/store/loans/loans.reducer.ts`, `loans.actions.ts` y `loans.selectors.ts` con `loadAll`, `setFilter` (solo en el cliente) y los selectores `selectAllLoansFiltered` y `selectPendingCount` (dep: T047, T057)
-- [ ] T061 [US5] Añadir `loadAll$` a `src/app/store/loans/loans.effects.ts` (dep: T048, T058)
-- [ ] T062 [US5] Crear `src/app/features/admin/admin-loans/admin-loans.page.ts|html|scss` (tabla con prestamista, monto, plazo, estado, fechas y quién decidió; `mat-button-toggle` de filtro con contador de pendientes; botón "Actualizar"; tarjetas por debajo de 768 px; `StateView`), registrar la ruta `/admin/loans` en `src/app/app.routes.ts` y añadir las etiquetas a `labels.ts` (dep: T017, T060, T061, T059)
-- [ ] T063 [US5] Añadir al mock `GET /api/loans?status=` en `src/app/core/mock/mock-routes-loans.ts` (solo Admin, filtro opcional, 400 si el valor es inválido, más recientes primero) y préstamos semilla de varios prestamistas en `mock-db.ts` (dep: T056)
+- [x] T060 [US5] Ampliar `src/app/store/loans/loans.reducer.ts`, `loans.actions.ts` y `loans.selectors.ts` con `loadAll`, `setFilter` (solo en el cliente) y los selectores `selectAllLoansFiltered` y `selectPendingCount` (dep: T047, T057)
+- [x] T061 [US5] Añadir `loadAll$` a `src/app/store/loans/loans.effects.ts` (dep: T048, T058)
+- [x] T062 [US5] Crear `src/app/features/admin/admin-loans/admin-loans.page.ts|html|scss` (tabla con prestamista, monto, plazo, estado, fechas y quién decidió; `mat-button-toggle` de filtro con contador de pendientes; botón "Actualizar"; tarjetas por debajo de 768 px; `StateView`), registrar la ruta `/admin/loans` en `src/app/app.routes.ts` y añadir las etiquetas a `labels.ts` (dep: T017, T060, T061, T059)
+- [x] T063 [US5] Añadir al mock `GET /api/loans?status=` en `src/app/core/mock/mock-routes-loans.ts` (solo Admin, filtro opcional, 400 si el valor es inválido, más recientes primero) y préstamos semilla de varios prestamistas en `mock-db.ts` (dep: T056)
 
 **Punto de control**: las historias 1 a 5 funcionan.
 

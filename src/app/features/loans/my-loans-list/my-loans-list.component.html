@@ -1,0 +1,52 @@
+<section [attr.aria-label]="labels.myLoans.title">
+  <h2>{{ labels.myLoans.title }}</h2>
+  <app-state-view
+    [loading]="loading()"
+    [error]="errorMessage()"
+    [empty]="empty()"
+    [emptyMessage]="labels.myLoans.empty"
+    (retry)="retry()"
+  >
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">{{ labels.myLoans.amount }}</th>
+          <th scope="col">{{ labels.myLoans.term }}</th>
+          <th scope="col">{{ labels.myLoans.status }}</th>
+          <th scope="col">{{ labels.myLoans.requested }}</th>
+          <th scope="col">{{ labels.myLoans.decided }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (loan of loans(); track loan.id) {
+          <tr>
+            <td>{{ loan.amount | currency: currencyCode : 'symbol' : '1.2-2' : locale }}</td>
+            <td>{{ labels.myLoans.months(loan.termMonths) }}</td>
+            <td><app-status-chip [status]="loan.status" /></td>
+            <td>{{ loan.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ loan.decidedAt ? (loan.decidedAt | date: 'dd/MM/yyyy HH:mm') : labels.myLoans.notDecided }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <ul class="cards">
+      @for (loan of loans(); track loan.id) {
+        <li class="card">
+          <div class="card-head">
+            <strong>{{ loan.amount | currency: currencyCode : 'symbol' : '1.2-2' : locale }}</strong>
+            <app-status-chip [status]="loan.status" />
+          </div>
+          <dl>
+            <dt>{{ labels.myLoans.term }}</dt>
+            <dd>{{ labels.myLoans.months(loan.termMonths) }}</dd>
+            <dt>{{ labels.myLoans.requested }}</dt>
+            <dd>{{ loan.createdAt | date: 'dd/MM/yyyy HH:mm' }}</dd>
+            <dt>{{ labels.myLoans.decided }}</dt>
+            <dd>{{ loan.decidedAt ? (loan.decidedAt | date: 'dd/MM/yyyy HH:mm') : labels.myLoans.notDecided }}</dd>
+          </dl>
+        </li>
+      }
+    </ul>
+  </app-state-view>
+</section>

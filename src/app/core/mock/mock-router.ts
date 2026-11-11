@@ -95,6 +95,7 @@ export function problem(
   };
 }
 
+/** Respuesta correcta; el cuerpo se copia para que el estado de NgRx (inmutable) no comparta objetos con la base. */
 export function ok(body: unknown, status = 200): MockResult {
-  return { status, body };
+  return { status, body: structuredClone(body) };
 }

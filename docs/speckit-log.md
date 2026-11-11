@@ -96,3 +96,9 @@ Entrega
 - What I changed by hand and why | Qué cambié a mano y por qué: nada fuera de las correcciones del informe. / Nothing beyond the report's corrections.
 
 ## Phase 7 – /speckit.implement | Fase 7
+
+- Agent | Agente: Claude Code (`/speckit-implement`, por lotes). Rama `001-web-ui`; cada lote se integra en `main` con `--no-ff`.
+- Date | Fecha: 2026-11-11
+- Progress | Avance: T001 a T063 hechas (Preparación, Fundamentos y historias 1 a 5). Verificado en cada lote con `npm run lint`, `npm test` (171 pruebas), build de producción y de `mock`, y un recorrido en el navegador en modo demostración (login con retorno, cierre de sesión y "atrás", solicitud con validación, "Mis préstamos" y lista del administrador con filtro y contador).
+- Decisions while implementing | Decisiones al implementar: `ng new` con `@angular/cli@19.2` en un directorio temporal; el estado de `loans` se registra una vez en una ruta padre sin ruta propia (`provideState` y `provideEffects`); el filtro de la lista del administrador es solo del cliente (corrección A1 del análisis); la caducidad no conserva `returnUrl` (A9); el mock copia con `structuredClone` los cuerpos para no compartir objetos con el estado inmutable de NgRx.
+- Pending observation | Observación pendiente: el build de producción supera el aviso de 500 kB del presupuesto inicial (552 kB, el límite de error es 1 MB); se revisa en el pulido (T091).
