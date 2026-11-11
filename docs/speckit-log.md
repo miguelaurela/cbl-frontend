@@ -3,10 +3,10 @@
 Spec Kit artifacts are written in Spanish, so the prompts below are in Spanish. Fill in the date and "what I changed by hand" when running each phase.
 Los artefactos de Spec Kit se redactan en español, por eso los prompts están en español. Completa la fecha y "qué cambié a mano" al ejecutar cada fase.
 
-Spec Kit release tag used | Versión de Spec Kit usada: (TODO)
+Spec Kit release tag used | Versión de Spec Kit usada: `specify-cli` 1.4.1.dev0 (instalado con `uv tool install --python 3.12`). Integraciones: Claude Code (predeterminada) y GitHub Copilot. Agente que ejecuta las fases: Claude Code. En esta versión los comandos son skills con guion (`/speckit-constitution`, …).
 
 ## Phase 1 – /speckit.constitution | Fase 1
-- Date | Fecha:
+- Date | Fecha: 2026-11-11
 - Prompt used (proposed, derived from the backend decisions; adjust before running) | Prompt usado (propuesto; ajústalo antes de ejecutarlo):
 
 ```
@@ -43,8 +43,9 @@ Entrega
 - CD: el build de producción se adjunta como artefacto a un GitHub Release al publicar tags v*.*.*; no hay despliegue a ningún entorno.
 - Documentación bilingüe: archivo en inglés por defecto y gemelo .es.md en español.
 ```
-- What it generated | Qué generó:
-- What I changed by hand and why | Qué cambié a mano y por qué:
+- What it generated | Qué generó: `.specify/memory/constitution.md` v1.0.0 (ratificada 2026-11-11) con 7 principios (arquitectura Angular por áreas y roles exactos; estado con NgRx; seguridad por defecto; formularios, errores y estados de la interfaz; desarrollo sin backend con configuración `mock`; calidad y pruebas; especificación primero y MVP), una sección de restricciones técnicas y de entrega, una de flujo de desarrollo y la gobernanza.
+- Deviations from the proposed prompt | Desviaciones del prompt propuesto (el prompt se escribió antes de implementar el backend; se ajustó a lo que el backend ya hace): (1) el cierre de sesión manual llama a `POST /api/auth/logout` y descarta el estado local aunque la llamada falle; (2) el interceptor de 401 solo cierra sesión en peticiones autenticadas: el 401 del propio login se muestra como error del formulario; (3) el mapeo de `ProblemDetails` incluye 423 (bloqueo de login) y 429 con el tiempo de espera de `Retry-After`; (4) el mock reproduce también el bloqueo 423, el cierre de sesión y la expiración. Además se añadieron las reglas del usuario (todo se commitea y sube; `main` es la rama donde debe estar todo; ramas integradas con `--no-ff`) y que los ADR nuevos del frontend empiezan en el 0027 (el 0026 es del backend).
+- What I changed by hand and why | Qué cambié a mano y por qué: nada aparte de lo anterior; aprobada por el usuario tal como se generó. / Nothing beyond the above; approved by the user as generated.
 
 ## Phase 2 – /speckit.specify | Fase 2
 - Date | Fecha:
