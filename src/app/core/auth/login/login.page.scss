@@ -1,0 +1,62 @@
+.login {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--cbl-space-4, 24px);
+}
+
+mat-card {
+  width: 100%;
+  max-width: 420px;
+  padding: var(--cbl-space-3, 16px);
+  box-sizing: border-box;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cbl-space-1, 4px);
+  margin-top: var(--cbl-space-3, 16px);
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--cbl-space-2, 8px);
+  min-height: 44px;
+}
+
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--cbl-space-2, 8px);
+  margin: var(--cbl-space-2, 8px) 0;
+  padding: var(--cbl-space-2, 8px) var(--cbl-space-3, 16px);
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+.banner-error {
+  background: var(--mat-sys-error-container);
+  color: var(--mat-sys-on-error-container);
+}
+
+.banner-info {
+  background: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+}
+
+.hint {
+  margin: var(--cbl-space-3, 16px) 0 0;
+  font-size: 0.875rem;
+  color: var(--mat-sys-on-surface-variant);
+}

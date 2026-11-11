@@ -53,6 +53,11 @@ module.exports = tseslint.config(
     },
   },
   {
+    // Las pruebas pueden leer el almacenamiento para comprobar que la sesión nunca se escribe en él.
+    files: ["**/*.spec.ts"],
+    rules: { "no-restricted-globals": "off", "no-restricted-properties": "off" },
+  },
+  {
     files: ["**/*.html"],
     extends: [
       ...angular.configs.templateRecommended,

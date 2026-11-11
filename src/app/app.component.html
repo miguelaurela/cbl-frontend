@@ -1,7 +1,24 @@
 <mat-toolbar color="primary" class="topbar">
   <span class="brand">{{ labels.appName }}</span>
-  <span class="spacer"></span>
-  <!-- Usuario, rol y "Cerrar sesión": se conectan en T041 (historia 2). -->
+
+  @if (user(); as current) {
+    <nav class="links" [attr.aria-label]="labels.nav.main">
+      @for (link of links(); track link.path) {
+        <a mat-button [routerLink]="link.path" routerLinkActive="active" ariaCurrentWhenActive="page">{{ link.label }}</a>
+      }
+    </nav>
+    <span class="spacer"></span>
+    <span class="user" [attr.aria-label]="labels.nav.user">
+      <span class="email">{{ current.email }}</span>
+      <span class="role-chip">{{ roleLabel() }}</span>
+    </span>
+    <button mat-button type="button" (click)="logout()">
+      <mat-icon aria-hidden="true">logout</mat-icon>
+      {{ labels.common.logout }}
+    </button>
+  } @else {
+    <span class="spacer"></span>
+  }
 </mat-toolbar>
 
 <main class="cbl-container">
