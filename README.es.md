@@ -4,6 +4,8 @@
 
 Cliente Angular para la prueba técnica de Makers, parte de **CBL Project (Control Banking Loans)**. Consume la API de `cbl-backend` (.NET).
 
+> **Para quien evalúa:** la **parte teórica** está en el README del backend: [Parte teórica](https://github.com/miguelaurela/cbl-backend#parte-teórica) (la pregunta 5 trata de este frontend).
+
 ## Stack
 Angular 19 (standalone components) · Angular Material · NgRx (`auth`, `loans`, `users`) · Reactive Forms · interceptores HTTP y guards de ruta · TypeScript (estricto) · Karma + Jasmine
 
